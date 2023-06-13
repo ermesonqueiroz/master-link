@@ -1,0 +1,8 @@
+version: '3.1'
+services:
+    master_link_mongo:
+        container_name: 'master-link-mongo'
+        image: mongo
+        restart: always
+        env_file:
+            - .env

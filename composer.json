@@ -1,0 +1,19 @@
+{
+    "name": "ermeson/master-link",
+    "authors": [
+        {
+            "name": "Ermeson Sampaio",
+            "email": "ermeson.s.queiroz@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/",
+            "Database\\": "database/"
+        }
+    },
+    "require": {
+        "bramus/router": "^1.6",
+        "mongodb/mongodb": "^1.11"
+    }
+}
