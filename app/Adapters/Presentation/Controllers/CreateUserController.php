@@ -16,13 +16,17 @@ class CreateUserController
 
     function handle(array $body)
     {
-        $user = $this->createUser->execute($body);
+        try {
+            $user = $this->createUser->execute($body);
 
-        HttpUtils::ok([
-            "username" => $user->getUsername(),
-            "displayName" => $user->getDisplayName(),
-            "email" => $user->getEmail(),
-            "password" => $user->getPassword()
-        ]);
+            HttpUtils::ok([
+                "username" => $user->getUsername(),
+                "displayName" => $user->getDisplayName(),
+                "email" => $user->getEmail(),
+                "password" => $user->getPassword()
+            ]);
+        } catch (\Exception $exception) {
+            HttpUtils::badRequest($exception->getMessage());
+        }
     }
 }

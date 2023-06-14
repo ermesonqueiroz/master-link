@@ -12,4 +12,13 @@ class HttpUtils
             "data" => $data
         ]);
     }
+
+    static function badRequest(string $message)
+    {
+        http_response_code(400);
+        echo json_encode([
+            "status" => 400,
+            "error" => $message
+        ]);
+    }
 }
