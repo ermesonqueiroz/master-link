@@ -16,11 +16,7 @@ class MongoUsersRepository implements UsersRepository
 
     function add(array $user)
     {
-        $collection = $this->connection->selectCollection(
-            getenv("DATABASE_NAME"),
-            "users"
-        );
-
+        $collection = MongoHelper::getCollection("users");
         $collection->insertOne($user);
     }
 }

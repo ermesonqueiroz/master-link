@@ -15,4 +15,12 @@ class MongoHelper
     {
         return MongoHelper::$connection;
     }
+
+    static function getCollection(string $collection): \MongoDB\Collection
+    {
+        return MongoHelper::getConnection()->selectCollection(
+            getenv("DATABASE_NAME"),
+            $collection
+        );
+    }
 }
