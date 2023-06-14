@@ -14,6 +14,7 @@
     },
     "require": {
         "bramus/router": "^1.6",
-        "mongodb/mongodb": "^1.11"
+        "mongodb/mongodb": "^1.11",
+        "vlucas/phpdotenv": "^5.5"
     }
 }
