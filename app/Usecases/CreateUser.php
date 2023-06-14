@@ -16,6 +16,14 @@ class CreateUser
 
     function execute(array $userData)
     {
+        $duplicatedUser = $this->usersRepository->findByEmail(
+            $userData["email"]
+        );
+
+        if ($duplicatedUser) {
+            throw new \Exception("Another user was found with this email.");
+        }
+
         $user = User::create($userData);
 
         $this->usersRepository->add([
