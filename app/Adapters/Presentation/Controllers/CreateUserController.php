@@ -21,9 +21,7 @@ class CreateUserController
 
             HttpUtils::ok([
                 "username" => $user->getUsername(),
-                "displayName" => $user->getDisplayName(),
-                "email" => $user->getEmail(),
-                "password" => $user->getPassword()
+                "displayName" => $user->getDisplayName()
             ]);
         } catch (\Exception $exception) {
             HttpUtils::badRequest($exception->getMessage());
