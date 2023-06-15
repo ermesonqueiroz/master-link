@@ -20,6 +20,14 @@ class MongoRefreshTokensRepository implements RefreshTokensRepository
         $collection->insertOne($user);
     }
 
+    function findById(string $id)
+    {
+        $collection = MongoHelper::getCollection("refresh_tokens");
+        return $collection->findOne([
+            "id" => $id
+        ]);
+    }
+
     function findByUserId(string $userId)
     {
         $collection = MongoHelper::getCollection("refresh_tokens");

@@ -20,6 +20,14 @@ class MongoUsersRepository implements UsersRepository
         $collection->insertOne($user);
     }
 
+    function findById(string $id)
+    {
+        $collection = MongoHelper::getCollection("users");
+        return $collection->findOne([
+            "id" => $id
+        ]);
+    }
+
     function findByEmail(string $email)
     {
         $collection = MongoHelper::getCollection("users");
