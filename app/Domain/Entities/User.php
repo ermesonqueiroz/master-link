@@ -6,13 +6,15 @@ use Exception;
 
 class User
 {
+    private $id;
     private $username;
     private $displayName;
     private $email;
     private $password;
 
-    private function __construct(string $username, string $displayName, string $email, string $password)
+    private function __construct(string $id, string $username, string $displayName, string $email, string $password)
     {
+        $this->id = $id;
         $this->username = $username;
         $this->displayName = $displayName;
         $this->email = $email;
@@ -21,6 +23,7 @@ class User
 
     static function create(array $userData)
     {
+        $id = $userData["id"];
         $username = $userData["username"];
         $displayName = $userData["displayName"];
         $email = filter_var($userData["email"], FILTER_SANITIZE_EMAIL);
@@ -31,11 +34,17 @@ class User
         }
 
         return new User(
+            $id,
             $username,
             $displayName,
             $email,
             $password
         );
+    }
+
+    function getId()
+    {
+        return $this->id;
     }
 
     function getUsername()

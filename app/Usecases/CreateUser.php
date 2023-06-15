@@ -4,6 +4,7 @@ namespace App\Usecases;
 
 use App\Domain\Entities\User;
 use App\External\Repositories\UsersRepository;
+use Ramsey\Uuid\Uuid;
 
 class CreateUser
 {
@@ -29,9 +30,11 @@ class CreateUser
         $user = User::create([
             ...$userData,
             "password" => $passwordHash,
+            "id" => Uuid::uuid4()->toString()
         ]);
 
         $this->usersRepository->add([
+            "id" => $user->getId(),
             "username" => $user->getUsername(),
             "displayName" => $user->getDisplayName(),
             "email" => $user->getEmail(),

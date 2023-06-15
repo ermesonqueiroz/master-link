@@ -16,6 +16,7 @@
         "bramus/router": "^1.6",
         "mongodb/mongodb": "^1.11",
         "vlucas/phpdotenv": "^5.5",
-        "ramsey/uuid": "^4.7"
+        "ramsey/uuid": "^4.7",
+        "firebase/php-jwt": "^6.7"
     }
 }
