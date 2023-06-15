@@ -24,7 +24,12 @@ class CreateUser
             throw new \Exception("Another user was found with this email.");
         }
 
-        $user = User::create($userData);
+        $passwordHash = password_hash($userData["password"], PASSWORD_DEFAULT);
+
+        $user = User::create([
+            ...$userData,
+            "password" => $passwordHash,
+        ]);
 
         $this->usersRepository->add([
             "username" => $user->getUsername(),
