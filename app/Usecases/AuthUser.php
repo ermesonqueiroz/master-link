@@ -8,10 +8,12 @@ use App\Utils\JWTUtils;
 class AuthUser
 {
     private $usersRepository;
+    private $createRefreshToken;
 
-    function __construct(UsersRepository $usersRepository)
+    function __construct(UsersRepository $usersRepository, CreateRefreshToken $createRefreshToken)
     {
         $this->usersRepository = $usersRepository;
+        $this->createRefreshToken = $createRefreshToken;
     }
 
     function execute(string $email, string $password)
@@ -31,9 +33,13 @@ class AuthUser
         $accessToken = JWTUtils::generateAccessToken([
             "id" => $user["id"]
         ]);
+        $refreshToken = $this->createRefreshToken->execute(
+            $user["id"]
+        );
 
         return [
-            "access_token" => $accessToken
+            "access_token" => $accessToken,
+            "refresh_token" => $refreshToken->getId()
         ];
     }
 }
