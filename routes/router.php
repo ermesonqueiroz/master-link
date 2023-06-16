@@ -2,6 +2,7 @@
 
 require "../vendor/autoload.php";
 
+use App\Factories\CreateLinkFactory;
 use App\Factories\RefreshAccessTokenFactory;
 use Bramus\Router\Router;
 use App\Factories\CreateUserFactory;
@@ -36,5 +37,15 @@ $router->post('/api/user/refresh-token', function () {
     );
 
     $controller = RefreshAccessTokenFactory::execute();
+    $controller->handle($body);
+});
+
+$router->post('/api/link', function () {
+    $body = json_decode(
+        file_get_contents('php://input'),
+        true
+    );
+
+    $controller = CreateLinkFactory::execute();
     $controller->handle($body);
 });

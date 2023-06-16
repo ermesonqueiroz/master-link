@@ -21,4 +21,13 @@ class HttpUtils
             "error" => $message
         ]);
     }
+
+    static function forbidden(string $message)
+    {
+        http_response_code(403);
+        echo json_encode([
+            "status" => 403,
+            "error" => $message
+        ]);
+    }
 }
