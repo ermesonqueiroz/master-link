@@ -2,44 +2,63 @@
 
 namespace App\External\Repositories\Mongo;
 
+use App\Domain\Entities\RefreshToken\RefreshTokenData;
 use App\External\Repositories\Mongo\Helpers\MongoHelper;
 use App\External\Repositories\RefreshTokensRepository;
+use MongoDB\Client;
 
 class MongoRefreshTokensRepository implements RefreshTokensRepository
 {
-    private $connection;
-
-    function __construct()
-    {
-        $this->connection = MongoHelper::getConnection();
-    }
-
-    function add(array $user)
+    function add(RefreshTokenData $refreshToken): void
     {
         $collection = MongoHelper::getCollection("refresh_tokens");
-        $collection->insertOne($user);
+        $collection->insertOne([
+            "id" => $refreshToken->id,
+            "userId" => $refreshToken->userId,
+            "expiresAt" => $refreshToken->expiresAt
+        ]);
     }
 
-    function findById(string $id)
+    function findById(string $id): RefreshTokenData | null
     {
         $collection = MongoHelper::getCollection("refresh_tokens");
-        return $collection->findOne([
+        $refreshTokenDocument = $collection->findOne([
             "id" => $id
         ]);
+        
+        if ($refreshTokenDocument) {
+            return new RefreshTokenData(
+                $refreshTokenDocument["id"],
+                $refreshTokenDocument["userId"],
+                $refreshTokenDocument["expiresAt"],
+            );
+        }
+        
+        return null;    
     }
 
-    function findByUserId(string $userId)
+    function findByUserId(string $userId): RefreshTokenData | null
     {
         $collection = MongoHelper::getCollection("refresh_tokens");
-        return $collection->findOne([
+        $refreshTokenDocument = $collection->findOne([
             "userId" => $userId
         ]);
+
+        if ($refreshTokenDocument) {
+            return new RefreshTokenData(
+                $refreshTokenDocument["id"],
+                $refreshTokenDocument["userId"],
+                $refreshTokenDocument["expiresAt"],
+            );
+        }
+
+        return null;
     }
 
-    function delete(string $id)
+    function delete(string $id): void
     {
         $collection = MongoHelper::getCollection("refresh_tokens");
-        return $collection->deleteOne([
+        $collection->deleteOne([
             "id" => $id
         ]);
     }

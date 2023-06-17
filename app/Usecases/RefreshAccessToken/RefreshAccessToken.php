@@ -7,12 +7,13 @@ use App\External\Repositories\UsersRepository;
 use App\Usecases\CreateRefreshToken\CreateRefreshToken;
 use App\Usecases\CreateRefreshToken\CreateRefreshTokenInputData;
 use App\Utils\JWTUtils;
+use Exception;
 
 class RefreshAccessToken
 {
-    private $refreshTokensRepository;
-    private $usersRepository;
-    private $createRefreshToken;
+    private RefreshTokensRepository $refreshTokensRepository;
+    private UsersRepository $usersRepository;
+    private CreateRefreshToken $createRefreshToken;
 
     function __construct(
         RefreshTokensRepository $refreshTokensRepository,
@@ -29,21 +30,20 @@ class RefreshAccessToken
         $refreshToken = $this->refreshTokensRepository->findById($inputData->refreshTokenId);
 
         if (!$refreshToken) {
-            throw new \Exception("Refresh token not found.");
+            throw new Exception("Refresh token not found.");
         }
 
-        if (time() > $refreshToken["expiresAt"]) {
-            echo $refreshToken["expiresAt"].",".time();
-            throw new \Exception("Invalid refresh token.");
+        if (time() > $refreshToken->expiresAt) {
+            throw new Exception("Invalid refresh token.");
         }
 
-        $user = $this->usersRepository->findById($refreshToken["userId"]);
+        $user = $this->usersRepository->findById($refreshToken->userId);
 
         $accessToken = JWTUtils::generateAccessToken([
-            "id" => $user["id"]
+            "id" => $user->id
         ]);
         
-        $createRefreshTokenInputData = new CreateRefreshTokenInputData($user["id"]);
+        $createRefreshTokenInputData = new CreateRefreshTokenInputData($user->id);
         $refreshToken = $this->createRefreshToken->execute($createRefreshTokenInputData);
 
         return new RefreshAccessTokenOutputData(

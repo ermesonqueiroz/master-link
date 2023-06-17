@@ -1,13 +1,15 @@
 <?php
 
-namespace App\Domain\Entities;
+namespace App\Domain\Entities\Link;
+
+use Exception;
 
 class Link
 {
-    private $id;
-    private $userId;
-    private $title;
-    private $url;
+    private string $id;
+    private string $userId;
+    private string $title;
+    private string $url;
 
     private function __construct(string $id, string $userId, string $title, string $url)
     {
@@ -17,15 +19,15 @@ class Link
         $this->url = $url;
     }
 
-    static function create(array $linkData)
+    static function create(LinkData $linkData): Link
     {
-        $id = $linkData["id"];
-        $userId = $linkData["userId"];
-        $title = $linkData["title"];
-        $url = filter_var($linkData["url"], FILTER_VALIDATE_URL);
+        $id = $linkData->id;
+        $userId = $linkData->userId;
+        $title = $linkData->title;
+        $url = filter_var($linkData->url, FILTER_VALIDATE_URL);
 
         if (!$url) {
-            throw new \Exception("Invalid URL.");
+            throw new Exception("Invalid URL.");
         }
 
         return new Link(
@@ -36,22 +38,22 @@ class Link
         );
     }
 
-    function getId()
+    function getId(): string
     {
         return $this->id;
     }
 
-    function getUserId()
+    function getUserId(): string
     {
         return $this->userId;
     }
 
-    function getTitle()
+    function getTitle(): string
     {
         return $this->title;
     }
 
-    function getURL()
+    function getURL(): string
     {
         return $this->url;
     }

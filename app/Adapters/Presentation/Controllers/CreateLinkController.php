@@ -7,17 +7,19 @@ use App\Usecases\CreateLink\CreateLink;
 use App\Usecases\CreateLink\CreateLinkInputData;
 use App\Utils\HttpUtils;
 use App\Utils\JWTUtils;
+use UnexpectedValueException;
+use Exception;
 
 class CreateLinkController
 {
-    private $createLink;
+    private CreateLink $createLink;
 
     function __construct(CreateLink $createLink)
     {
         $this->createLink = $createLink;
     }
 
-    function handle(HttpRequest $request)
+    function handle(HttpRequest $request): void
     {
         try {
             $accessToken = str_replace("Bearer ", "", $_SERVER["HTTP_AUTHORIZATION"]);
@@ -37,10 +39,9 @@ class CreateLinkController
                 "title" => $createLinkResponse->title,
                 "url" => $createLinkResponse->url
             ]);
-        } catch (\UnexpectedValueException $exception) {
+        } catch (UnexpectedValueException) {
             HttpUtils::forbidden("Forbidden");
-        } catch (\Exception $exception) {
-            var_dump($exception);
+        } catch (Exception $exception) {
             HttpUtils::badRequest($exception->getMessage());
         }
     }

@@ -6,10 +6,11 @@ use App\Main\Config\HttpRequest;
 use App\Usecases\AuthUser\AuthUser;
 use App\Usecases\AuthUser\AuthUserInputData;
 use App\Utils\HttpUtils;
+use Exception;
 
 class AuthUserController
 {
-    private $authUser;
+    private AuthUser $authUser;
 
     function __construct(AuthUser $authUser)
     {
@@ -30,7 +31,7 @@ class AuthUserController
                 "access_token" => $authUserResponse->accessToken,
                 "refresh_token" => $authUserResponse->refreshToken
             ]);
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             HttpUtils::badRequest($exception->getMessage());
         }
     }

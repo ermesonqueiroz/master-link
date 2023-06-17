@@ -1,19 +1,24 @@
 <?php
 
 namespace App\External\Repositories\Mongo;
-use App\Domain\Entities\Link;
-use App\External\Repositories\LinksRepository\LinksRepository;
+use App\Domain\Entities\Link\LinkData;
+use App\External\Repositories\LinksRepository;
 use App\External\Repositories\Mongo\Helpers\MongoHelper;
 
 class MongoLinksRepository implements LinksRepository
 {
-    function add(array $link)
+    function add(LinkData $linkData): void
     {
         $collection = MongoHelper::getCollection("links");
-        $collection->insertOne($link);
+        $collection->insertOne([
+            "id" => $linkData->id,
+            "userId" => $linkData->userId,
+            "title" => $linkData->title,
+            "url" => $linkData->url
+        ]);
     }
-    
-    function findAllByUserId(string $userId)
+
+    function findAllByUserId(string $userId): array
     {
         $collection = MongoHelper::getCollection("links");
         $links = $collection->find([
@@ -21,12 +26,12 @@ class MongoLinksRepository implements LinksRepository
         ])->toArray();
 
         return array_map(function ($item) {
-            return Link::create([
-                "id" => $item["id"],
-                "userId" => $item["userId"],
-                "title" => $item["title"],
-                "url" => $item["url"]
-            ]);
+            return new LinkData(
+                $item["id"],
+                $item["userId"],
+                $item["title"],
+                $item["url"]
+            );
         }, $links);
     }
 }

@@ -2,9 +2,11 @@
 
 namespace App\External\Repositories;
 
+use App\Domain\Entities\User\UserData;
+
 interface UsersRepository
 {
-    function add(array $user);
-    function findById(string $id);
-    function findByEmail(string $email);
+    function add(UserData $user): void;
+    function findById(string $id): UserData | null;
+    function findByEmail(string $email): UserData | null;
 } 

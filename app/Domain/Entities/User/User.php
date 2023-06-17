@@ -1,16 +1,16 @@
 <?php
 
-namespace App\Domain\Entities;
+namespace App\Domain\Entities\User;
 
 use Exception;
 
 class User
 {
-    private $id;
-    private $username;
-    private $displayName;
-    private $email;
-    private $password;
+    private string $id;
+    private string $username;
+    private string $displayName;
+    private string $email;
+    private string $password;
 
     private function __construct(string $id, string $username, string $displayName, string $email, string $password)
     {
@@ -21,13 +21,13 @@ class User
         $this->password = $password;
     }
 
-    static function create(array $userData)
+    static function create(UserData $userData): User
     {
-        $id = $userData["id"];
-        $username = $userData["username"];
-        $displayName = $userData["displayName"];
-        $email = filter_var($userData["email"], FILTER_SANITIZE_EMAIL);
-        $password = $userData["password"];
+        $id = $userData->id;
+        $username = $userData->username;
+        $displayName = $userData->displayName;
+        $email = filter_var($userData->email, FILTER_SANITIZE_EMAIL);
+        $password = $userData->password;
 
         if (!$email) {
             throw new Exception("Email '$email' is invalid.");
@@ -42,27 +42,27 @@ class User
         );
     }
 
-    function getId()
+    function getId(): string
     {
         return $this->id;
     }
 
-    function getUsername()
+    function getUsername(): string
     {
         return $this->username;
     }
 
-    function getDisplayName()
+    function getDisplayName(): string
     {
         return $this->displayName;
     }
 
-    function getEmail()
+    function getEmail(): string
     {
         return $this->email;
     }
 
-    function getPassword()
+    function getPassword(): string
     {
         return $this->password;
     }

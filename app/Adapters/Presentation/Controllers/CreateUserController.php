@@ -6,17 +6,18 @@ use App\Main\Config\HttpRequest;
 use App\Usecases\CreateUser\CreateUser;
 use App\Usecases\CreateUser\CreateUserInputData;
 use App\Utils\HttpUtils;
+use Exception;
 
 class CreateUserController
 {
-    private $createUser;
+    private CreateUser $createUser;
 
     function __construct(CreateUser $createUser)
     {
         $this->createUser = $createUser;
     }
 
-    function handle(HttpRequest $request)
+    function handle(HttpRequest $request): void
     {
         try {
             $inputData = new CreateUserInputData(
@@ -32,7 +33,7 @@ class CreateUserController
                 "username" => $createUserResponse->username,
                 "displayName" => $createUserResponse->displayName
             ]);
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             HttpUtils::badRequest($exception->getMessage());
         }
     }
