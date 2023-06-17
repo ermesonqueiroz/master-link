@@ -2,7 +2,9 @@
 
 namespace App\Adapters\Presentation\Controllers;
 
-use App\Usecases\CreateUser;
+use App\Main\Config\HttpRequest;
+use App\Usecases\CreateUser\CreateUser;
+use App\Usecases\CreateUser\CreateUserInputData;
 use App\Utils\HttpUtils;
 
 class CreateUserController
@@ -14,14 +16,21 @@ class CreateUserController
         $this->createUser = $createUser;
     }
 
-    function handle(array $body)
+    function handle(HttpRequest $request)
     {
         try {
-            $user = $this->createUser->execute($body);
+            $inputData = new CreateUserInputData(
+                $request->body["username"],
+                $request->body["displayName"],
+                $request->body["email"],
+                $request->body["password"]
+            );
+            
+            $createUserResponse = $this->createUser->execute($inputData);
 
             HttpUtils::ok([
-                "username" => $user->getUsername(),
-                "displayName" => $user->getDisplayName()
+                "username" => $createUserResponse->username,
+                "displayName" => $createUserResponse->displayName
             ]);
         } catch (\Exception $exception) {
             HttpUtils::badRequest($exception->getMessage());

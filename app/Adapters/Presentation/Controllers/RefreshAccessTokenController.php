@@ -2,7 +2,9 @@
 
 namespace App\Adapters\Presentation\Controllers;
 
-use App\Usecases\RefreshAccessToken;
+use App\Main\Config\HttpRequest;
+use App\Usecases\RefreshAccessToken\RefreshAccessToken;
+use App\Usecases\RefreshAccessToken\RefreshAccessTokenInputData;
 use App\Utils\HttpUtils;
 
 class RefreshAccessTokenController
@@ -14,10 +16,11 @@ class RefreshAccessTokenController
         $this->refreshAccessToken = $refreshAccessToken;
     }
 
-    function handle(array $body)
+    function handle(HttpRequest $request)
     {
         try {
-            $refreshAccessTokenResponse = $this->refreshAccessToken->execute($body["refresh_token"]);
+            $inputData = new RefreshAccessTokenInputData($request->body["refresh_token"]);
+            $refreshAccessTokenResponse = $this->refreshAccessToken->execute($inputData);
 
             HttpUtils::ok($refreshAccessTokenResponse);
         } catch (\Exception $exception) {

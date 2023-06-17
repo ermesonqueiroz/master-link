@@ -3,14 +3,7 @@
 namespace App\Main\Config;
 
 use App\Utils\HttpUtils;
-
-enum HttpRequestMethod: string
-{
-    case GET = "get";
-    case POST = "post";
-    case PUT = "put";
-    case DELETE = "delete";
-}
+use App\Main\Config\HttpRequestMethod;
 
 class Router
 {
@@ -79,9 +72,33 @@ class Router
         );
     }
     
-    private static function getRouteHandler(HttpRequestMethod $requestMethod, string $route): callable | null
+    private static function getRouteHandler(HttpRequestMethod $requestMethod, string $route): array
     {
-        return self::$routes[$requestMethod->value][$route];
+        $routes = self::$routes[$requestMethod->value];
+        $handler = null;
+        
+        foreach ($routes as $routeMatcher => $routeHandler) {
+            if (preg_match("~^$routeMatcher/?~i", $route, $matches)) {
+                $handler = $routeHandler;
+            }
+        }
+        
+        return $handler;
+    }
+    
+    private static function getRequestParameters(HttpRequestMethod $requestMethod, string $route): array
+    {
+        $routes = self::$routes[$requestMethod->value];
+        $params = null;
+
+        foreach ($routes as $routeMatcher => $routeHandler) {
+            if (preg_match("~^$routeMatcher/?~i", $route, $matches)) {
+                array_shift($matches);
+                $params = $matches;
+            }
+        }
+
+        return $params;
     }
     
     private static function getRequestBody(): array
@@ -89,7 +106,7 @@ class Router
         return json_decode(
             file_get_contents('php://input'),
             true
-        );
+        ) ?? [];
     }
 
     static function dispatch(): void
@@ -102,11 +119,16 @@ class Router
             $uri
         );
         
+        $body = self::getRequestBody();
+        $params = self::getRequestParameters(
+            HttpRequestMethod::from($requestMethod),
+            $uri
+        );
         
         if (!isset($handler)) {
             HttpUtils::notFound();
         }
         
-        $handler(self::getRequestBody());
+        $handler(new HttpRequest($body, $params));
     }
 }

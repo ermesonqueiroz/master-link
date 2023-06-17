@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Usecases;
+namespace App\Usecases\CreateLink;
+
 use App\Domain\Entities\Link;
-use App\External\Repositories\LinksRepository;
+use App\External\Repositories\LinksRepository\LinksRepository;
 use App\External\Repositories\UsersRepository;
 use Ramsey\Uuid\Uuid;
 
@@ -17,17 +18,19 @@ class CreateLink
         $this->usersRepository = $usersRepository;
     }
 
-    function execute(array $linkData)
+    function execute(CreateLinkInputData $inputData)
     {
-        $userFound = $this->usersRepository->findById($linkData["userId"]);
+        $userFound = $this->usersRepository->findById($inputData->userId);
 
         if (!$userFound) {
             throw new \Exception("User not found.");
         }
 
         $link = Link::create([
-            ...$linkData,
-            "id" => Uuid::uuid4()->toString()
+            "id" => Uuid::uuid4()->toString(),
+            "userId" => $inputData->userId,
+            "title" => $inputData->title,
+            "url" => $inputData->url
         ]);
 
         $this->linksRepository->add([
@@ -37,6 +40,11 @@ class CreateLink
             "url" => $link->getURL()
         ]);
 
-        return $link;
+        return new CreateLinkOutputData(
+            $link->getId(),
+            $link->getUserId(),
+            $link->getTitle(),
+            $link->getURL()
+        );
     }
 }

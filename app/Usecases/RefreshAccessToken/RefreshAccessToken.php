@@ -1,9 +1,11 @@
 <?php
 
-namespace App\Usecases;
+namespace App\Usecases\RefreshAccessToken;
 
 use App\External\Repositories\RefreshTokensRepository;
 use App\External\Repositories\UsersRepository;
+use App\Usecases\CreateRefreshToken\CreateRefreshToken;
+use App\Usecases\CreateRefreshToken\CreateRefreshTokenInputData;
 use App\Utils\JWTUtils;
 
 class RefreshAccessToken
@@ -22,9 +24,9 @@ class RefreshAccessToken
         $this->createRefreshToken = $createRefreshToken;
     }
 
-    function execute(string $refreshTokenId)
+    function execute(RefreshAccessTokenInputData $inputData): RefreshAccessTokenOutputData
     {
-        $refreshToken = $this->refreshTokensRepository->findById($refreshTokenId);
+        $refreshToken = $this->refreshTokensRepository->findById($inputData->refreshTokenId);
 
         if (!$refreshToken) {
             throw new \Exception("Refresh token not found.");
@@ -40,13 +42,13 @@ class RefreshAccessToken
         $accessToken = JWTUtils::generateAccessToken([
             "id" => $user["id"]
         ]);
-        $refreshToken = $this->createRefreshToken->execute(
-            $user["id"]
-        );
+        
+        $createRefreshTokenInputData = new CreateRefreshTokenInputData($user["id"]);
+        $refreshToken = $this->createRefreshToken->execute($createRefreshTokenInputData);
 
-        return [
-            "access_token" => $accessToken,
-            "refresh_token" => $refreshToken->getId()
-        ];
+        return new RefreshAccessTokenOutputData(
+            $accessToken,
+            $refreshToken->tokenId
+        );
     }
 }

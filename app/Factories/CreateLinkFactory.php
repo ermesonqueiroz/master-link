@@ -5,7 +5,7 @@ namespace App\Factories;
 use App\Adapters\Presentation\Controllers\CreateLinkController;
 use App\External\Repositories\Mongo\MongoLinksRepository;
 use App\External\Repositories\Mongo\MongoUsersRepository;
-use App\Usecases\CreateLink;
+use App\Usecases\CreateLink\CreateLink;
 
 class CreateLinkFactory
 {

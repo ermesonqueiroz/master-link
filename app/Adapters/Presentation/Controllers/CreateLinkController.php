@@ -1,10 +1,12 @@
 <?php
 
 namespace App\Adapters\Presentation\Controllers;
-use App\Usecases\CreateLink;
+
+use App\Main\Config\HttpRequest;
+use App\Usecases\CreateLink\CreateLink;
+use App\Usecases\CreateLink\CreateLinkInputData;
 use App\Utils\HttpUtils;
 use App\Utils\JWTUtils;
-use Firebase\JWT\SignatureInvalidException;
 
 class CreateLinkController
 {
@@ -15,7 +17,7 @@ class CreateLinkController
         $this->createLink = $createLink;
     }
 
-    function handle(array $body)
+    function handle(HttpRequest $request)
     {
         try {
             $accessToken = str_replace("Bearer ", "", $_SERVER["HTTP_AUTHORIZATION"]);
@@ -23,14 +25,17 @@ class CreateLinkController
             $decodedToken = JWTUtils::decode(str_replace("Bearer ", "", $accessToken));
             $userId = $decodedToken->id;
 
-            $link = $this->createLink->execute([
-                ...$body,
-                "userId" => $userId
-            ]);
+            $inputData = new CreateLinkInputData(
+                $userId,
+                $request->body["title"],
+                $request->body["url"]
+            );
+            
+            $createLinkResponse = $this->createLink->execute($inputData);
 
             HttpUtils::ok([
-                "title" => $link->getTitle(),
-                "url" => $link->getURL()
+                "title" => $createLinkResponse->title,
+                "url" => $createLinkResponse->url
             ]);
         } catch (\UnexpectedValueException $exception) {
             HttpUtils::forbidden("Forbidden");

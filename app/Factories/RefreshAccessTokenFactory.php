@@ -1,11 +1,12 @@
 <?php
 
 namespace App\Factories;
+
 use App\Adapters\Presentation\Controllers\RefreshAccessTokenController;
 use App\External\Repositories\Mongo\MongoRefreshTokensRepository;
 use App\External\Repositories\Mongo\MongoUsersRepository;
-use App\Usecases\CreateRefreshToken;
-use App\Usecases\RefreshAccessToken;
+use App\Usecases\CreateRefreshToken\CreateRefreshToken;
+use App\Usecases\RefreshAccessToken\RefreshAccessToken;
 
 class RefreshAccessTokenFactory
 {

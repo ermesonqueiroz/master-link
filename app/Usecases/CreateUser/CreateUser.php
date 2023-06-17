@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Usecases;
+namespace App\Usecases\CreateUser;
 
 use App\Domain\Entities\User;
 use App\External\Repositories\UsersRepository;
@@ -15,22 +15,23 @@ class CreateUser
         $this->usersRepository = $usersRepository;
     }
 
-    function execute(array $userData)
+    function execute(CreateUserInputData $inputData)
     {
         $duplicatedUser = $this->usersRepository->findByEmail(
-            $userData["email"]
+            $inputData->email
         );
 
         if ($duplicatedUser) {
             throw new \Exception("Another user was found with this email.");
         }
 
-        $passwordHash = password_hash($userData["password"], PASSWORD_DEFAULT);
+        $passwordHash = password_hash($inputData->password, PASSWORD_DEFAULT);
 
         $user = User::create([
-            ...$userData,
-            "password" => $passwordHash,
-            "id" => Uuid::uuid4()->toString()
+            "id" => Uuid::uuid4()->toString(),
+            "username" => $inputData->username,
+            "email" => $inputData->email,
+            "password" => $passwordHash
         ]);
 
         $this->usersRepository->add([
@@ -41,6 +42,9 @@ class CreateUser
             "password" => $user->getPassword()
         ]);
 
-        return $user;
+        return new CreateUserOutputData(
+            $user->getUsername(),
+            $user->getDisplayName()
+        );
     }
 }

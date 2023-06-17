@@ -2,7 +2,9 @@
 
 namespace App\Adapters\Presentation\Controllers;
 
-use App\Usecases\AuthUser;
+use App\Main\Config\HttpRequest;
+use App\Usecases\AuthUser\AuthUser;
+use App\Usecases\AuthUser\AuthUserInputData;
 use App\Utils\HttpUtils;
 
 class AuthUserController
@@ -14,15 +16,20 @@ class AuthUserController
         $this->authUser = $authUser;
     }
 
-    function handle(array $body)
+    function handle(HttpRequest $request): void
     {
         try {
-            $authUserResponse = $this->authUser->execute(
-                $body["email"],
-                $body["password"]
+            $inputData = new AuthUserInputData(
+                $request->body["email"],
+                $request->body["password"]
             );
+            
+            $authUserResponse = $this->authUser->execute($inputData);
 
-            HttpUtils::ok($authUserResponse);
+            HttpUtils::ok([
+                "access_token" => $authUserResponse->accessToken,
+                "refresh_token" => $authUserResponse->refreshToken
+            ]);
         } catch (\Exception $exception) {
             HttpUtils::badRequest($exception->getMessage());
         }

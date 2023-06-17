@@ -2,9 +2,9 @@
 
 namespace App\Factories;
 
-use App\External\Repositories\Mongo\MongoUsersRepository;
-use App\Usecases\CreateUser;
 use App\Adapters\Presentation\Controllers\CreateUserController;
+use App\External\Repositories\Mongo\MongoUsersRepository;
+use App\Usecases\CreateUser\CreateUser;
 
 class CreateUserFactory
 {

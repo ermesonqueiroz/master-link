@@ -1,6 +1,7 @@
 <?php
 
-namespace App\Usecases;
+namespace App\Usecases\CreateRefreshToken;
+
 use App\Domain\Entities\RefreshToken;
 use App\External\Repositories\RefreshTokensRepository;
 use Ramsey\Uuid\Uuid;
@@ -14,9 +15,9 @@ class CreateRefreshToken
         $this->refreshTokensRepository = $refreshTokensRepository;
     }
 
-    function execute(string $userId)
+    function execute(CreateRefreshTokenInputData $inputData): CreateRefreshTokenOutputData
     {
-        $duplicatedRefreshToken = $this->refreshTokensRepository->findByUserId($userId);
+        $duplicatedRefreshToken = $this->refreshTokensRepository->findByUserId($inputData->userId);
 
         if ($duplicatedRefreshToken) {
             $this->refreshTokensRepository->delete(
@@ -26,7 +27,7 @@ class CreateRefreshToken
 
         $refreshToken = RefreshToken::create([
             "id" => Uuid::uuid4()->toString(),
-            "userId" => $userId,
+            "userId" => $inputData->userId,
             "expiresAt" => time() + (7 * 24 * 60 * 60) // 7 days
         ]);
 
@@ -36,6 +37,10 @@ class CreateRefreshToken
             "expiresAt" => $refreshToken->getExpiresAt()
         ]);
 
-        return $refreshToken;
+        return new CreateRefreshTokenOutputData(
+            $refreshToken->getId(),
+            $refreshToken->getUserId(),
+            $refreshToken->getExpiresAt()
+        );
     }
 }
