@@ -9,12 +9,12 @@ use App\Usecases\CreateLink;
 
 class CreateLinkFactory
 {
-    static function execute()
+    static function execute($body): void
     {
         $linksRepository = new MongoLinksRepository();
         $usersRepository = new MongoUsersRepository();
         $createLink = new CreateLink($linksRepository, $usersRepository);
         $createLinkController = new CreateLinkController($createLink);
-        return $createLinkController;
+        $createLinkController->handle($body);
     }
 }

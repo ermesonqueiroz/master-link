@@ -1,8 +1,9 @@
 <?php
-use App\External\Repositories\Mongo\Helpers\MongoHelper;
 
 require "../vendor/autoload.php";
-require "../routes/router.php";
+
+use App\External\Repositories\Mongo\Helpers\MongoHelper;
+use App\Main\Routes;
 
 \Dotenv\Dotenv::createUnsafeImmutable(__DIR__."/../")->load();
 
@@ -11,4 +12,4 @@ header("Content-Type: application/json");
 
 MongoHelper::connect();
 
-$router->run();
+Routes::dispatch();

@@ -10,7 +10,7 @@ use App\Usecases\CreateRefreshToken;
 
 class AuthUserFactory
 {
-    static function execute()
+    static function execute($body): void
     {
         $usersRepository = new MongoUsersRepository();
         $refreshTokensRepository = new MongoRefreshTokensRepository();
@@ -19,6 +19,6 @@ class AuthUserFactory
         $authUser = new AuthUser($usersRepository, $createRefreshToken);
 
         $authUserController = new AuthUserController($authUser);
-        return $authUserController;
+        $authUserController->handle($body);
     }
 }

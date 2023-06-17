@@ -30,4 +30,9 @@ class HttpUtils
             "error" => $message
         ]);
     }
+    
+    static function notFound()
+    {
+        http_response_code(404);
+    }
 }

@@ -9,7 +9,7 @@ use App\Usecases\RefreshAccessToken;
 
 class RefreshAccessTokenFactory
 {
-    static function execute()
+    static function execute($body): void
     {
         $usersRepository = new MongoUsersRepository();
         $refreshTokensRepository = new MongoRefreshTokensRepository();
@@ -22,6 +22,6 @@ class RefreshAccessTokenFactory
         );
 
         $refreshAccessTokenController = new RefreshAccessTokenController($refreshAccessToken);
-        return $refreshAccessTokenController;
+        $refreshAccessTokenController->handle($body);
     }
 }
