@@ -3,11 +3,13 @@
 require "./vendor/autoload.php";
 
 use Database\Seeds\UserSeeder;
+use Dotenv\Dotenv;
+use MongoDB\Client;
 
-\Dotenv\Dotenv::createUnsafeImmutable(__DIR__)->load();
+Dotenv::createUnsafeImmutable(__DIR__)->load();
 
 $databaseName = getenv("DATABASE_NAME");
-$connection = new \MongoDB\Client(
+$connection = new Client(
     getenv("DATABASE_URI")
 );
 

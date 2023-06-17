@@ -2,12 +2,14 @@
 
 namespace Database\Seeds;
 
+use MongoDB\Client;
+
 class UserSeeder
 {
     private $connection;
     private $databaseName;
 
-    function __construct(\MongoDB\Client $connection, string $databaseName)
+    function __construct(Client $connection, string $databaseName)
     {
         $this->connection = $connection;
         $this->databaseName = $databaseName;
