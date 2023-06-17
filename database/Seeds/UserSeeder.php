@@ -6,8 +6,8 @@ use MongoDB\Client;
 
 class UserSeeder
 {
-    private $connection;
-    private $databaseName;
+    private Client $connection;
+    private string $databaseName;
 
     function __construct(Client $connection, string $databaseName)
     {
@@ -15,7 +15,7 @@ class UserSeeder
         $this->databaseName = $databaseName;
     }
 
-    public function run()
+    public function run(): void
     {
         $collection = $this->connection->selectCollection(
             $this->databaseName,

@@ -4,7 +4,7 @@ namespace App\Utils;
 
 class HttpUtils
 {
-    static function ok($data)
+    static function ok($data): void
     {
         http_response_code(200);
         echo json_encode([
@@ -13,7 +13,7 @@ class HttpUtils
         ]);
     }
 
-    static function badRequest(string $message)
+    static function badRequest(string $message): void
     {
         http_response_code(400);
         echo json_encode([
@@ -22,7 +22,7 @@ class HttpUtils
         ]);
     }
 
-    static function forbidden(string $message)
+    static function forbidden(string $message): void
     {
         http_response_code(403);
         echo json_encode([
@@ -31,7 +31,7 @@ class HttpUtils
         ]);
     }
     
-    static function notFound()
+    static function notFound(): void
     {
         http_response_code(404);
     }

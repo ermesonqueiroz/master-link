@@ -7,9 +7,9 @@ use MongoDB\Collection;
 
 class MongoHelper
 {
-    private static $connection;
+    private static Client $connection;
 
-    static function connect()
+    static function connect(): void
     {
         MongoHelper::$connection = new Client(getenv("DATABASE_URI"));
     }

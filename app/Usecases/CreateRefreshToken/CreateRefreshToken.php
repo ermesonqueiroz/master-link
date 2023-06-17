@@ -9,7 +9,7 @@ use Ramsey\Uuid\Uuid;
 
 class CreateRefreshToken
 {
-    private $refreshTokensRepository;
+    private RefreshTokensRepository $refreshTokensRepository;
 
     function __construct(RefreshTokensRepository $refreshTokensRepository)
     {
