@@ -3,7 +3,6 @@
 namespace App\Main\Config;
 
 use App\Utils\HttpUtils;
-use App\Main\Config\HttpRequestMethod;
 
 class Router
 {
@@ -78,7 +77,7 @@ class Router
         $handler = null;
         
         foreach ($routes as $routeMatcher => $routeHandler) {
-            if (preg_match("~^$routeMatcher/?~i", $route, $matches)) {
+            if (preg_match("~^$routeMatcher/?~i", $route)) {
                 $handler = $routeHandler;
             }
         }

@@ -5,7 +5,6 @@ namespace App\External\Repositories\Mongo;
 use App\Domain\Entities\RefreshToken\RefreshTokenData;
 use App\External\Repositories\Mongo\Helpers\MongoHelper;
 use App\External\Repositories\RefreshTokensRepository;
-use MongoDB\Client;
 
 class MongoRefreshTokensRepository implements RefreshTokensRepository
 {

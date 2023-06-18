@@ -26,7 +26,7 @@ class GetUserLinksController
             $getUserLinksResponse = $this->getUserLinks->execute($inputData);
             
             HttpUtils::ok($getUserLinksResponse->links);
-        } catch (UnexpectedValueException $exception) {
+        } catch (UnexpectedValueException) {
             HttpUtils::forbidden("Forbidden");
         } catch (Exception $exception) {
             var_dump($exception);
