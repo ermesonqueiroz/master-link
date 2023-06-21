@@ -71,7 +71,7 @@ class Router
         );
     }
     
-    private static function getRouteHandler(HttpRequestMethod $requestMethod, string $route): array
+    private static function getRouteHandler(HttpRequestMethod $requestMethod, string $route): callable | null
     {
         $routes = self::$routes[$requestMethod->value];
         $handler = null;
@@ -85,7 +85,7 @@ class Router
         return $handler;
     }
     
-    private static function getRequestParameters(HttpRequestMethod $requestMethod, string $route): array
+    private static function getRequestParameters(HttpRequestMethod $requestMethod, string $route): array | null 
     {
         $routes = self::$routes[$requestMethod->value];
         $params = null;
@@ -112,6 +112,8 @@ class Router
     {
         $uri = self::parseRoute($_SERVER["REQUEST_URI"]);
         $requestMethod = strtolower($_SERVER["REQUEST_METHOD"]);
+        
+        var_dump($requestMethod);
         
         $handler = self::getRouteHandler(
             HttpRequestMethod::from($requestMethod),

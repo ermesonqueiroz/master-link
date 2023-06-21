@@ -59,4 +59,24 @@ class MongoUsersRepository implements UsersRepository
 
         return null;
     }
+    
+    function findByUsername(string $username): UserData | null
+    {
+        $collection = MongoHelper::getCollection("users");
+        $userDocument = $collection->findOne([
+            "username" => $username
+        ]);
+
+        if ($userDocument) {
+            return new UserData(
+                $userDocument["id"],
+                $userDocument["username"],
+                $userDocument["displayName"],
+                $userDocument["email"],
+                $userDocument["password"]
+            );
+        }
+
+        return null;
+    }
 }

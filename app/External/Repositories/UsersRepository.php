@@ -9,4 +9,5 @@ interface UsersRepository
     function add(UserData $user): void;
     function findById(string $id): UserData | null;
     function findByEmail(string $email): UserData | null;
+    function findByUsername(string $username): UserData | null;
 } 

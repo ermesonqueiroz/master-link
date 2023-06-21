@@ -8,7 +8,7 @@ use Dotenv\Dotenv;
 
 Dotenv::createUnsafeImmutable(__DIR__."/../")->load();
 
-header('Access-Control-Allow-Origin: *');
+header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json");
 
 MongoHelper::connect();
