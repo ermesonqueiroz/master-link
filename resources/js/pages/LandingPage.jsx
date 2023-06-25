@@ -17,12 +17,12 @@ export function LandingPage() {
                         Sign in
                     </a>
 
-                    <a
+                    <Link to="/signup"
                         href="#"
                         className="text-zinc-200 font-medium tracking-tight text-lg h-10 px-4 rounded-full bg-zinc-800 hover:bg-zinc-700 transition-colors transition-colors flex gap-2 items-center justify-center"
                     >
                         Get started <CaretRight size={14} />
-                    </a>
+                    </Link>
                 </div>
             </header>
             <h1 className="font-bold text-zinc-900 text-3xl tracking-tight absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
