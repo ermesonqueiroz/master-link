@@ -1,23 +1,10 @@
-version: '3.1'
 services:
-    master_link_mongo:
-        container_name: 'master-link-mongo'
-        image: mongo
-        restart: always
-        env_file:
-            - .env
-        volumes:
-            - /mongodb:/data/db
-    master_link_redis:
-        container_name: 'master-link-redis'
-        image: redis
-        restart: always
-        ports:
-            - '6379:6379'
-        command: redis-server --save 20 1 --loglevel warning --requirepass eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
-        volumes:
-            - cache:/data
-
-volumes: 
-    cache:
-        driver: local
+  unilink_postgres:
+    container_name: 'unilink-postgres'
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_DB: unilink
+      POSTGRES_PASSWORD: password
+    ports:
+      - '54321:5432'
