@@ -12,9 +12,11 @@ class User extends Model
 
     protected $connection = 'mongodb';
     protected $collection = 'users';
+    protected $appends = ['id'];
 
     protected $fillable = [
-        'name',
+        'username',
+        'displayName',
         'email',
         'password',
     ];
@@ -22,6 +24,7 @@ class User extends Model
     protected $hidden = [
         'password',
         'remember_token',
+        '_id'
     ];
 
     protected $casts = [
