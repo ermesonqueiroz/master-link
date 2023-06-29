@@ -22,7 +22,7 @@ class AuthController extends Controller
             throw new HttpResponseException(
                 response()->json([
                     'error' => 'duplicated user'
-                ])
+                ], 400)
             );
         }
 
@@ -61,7 +61,7 @@ class AuthController extends Controller
             throw new HttpResponseException(
                 response()->json([
                     'error' => 'user not found'
-                ])
+                ], 400)
             );
         }
 
@@ -71,7 +71,7 @@ class AuthController extends Controller
             throw new HttpResponseException(
                 response()->json([
                     'error' => 'incorrect password'
-                ])
+                ], 401)
             );
         }
 
@@ -100,7 +100,7 @@ class AuthController extends Controller
             throw new HttpResponseException(
                 response()->json([
                     'error' => 'invalid refresh token'
-                ])
+                ], 401)
             );
         }
 

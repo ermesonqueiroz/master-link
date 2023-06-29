@@ -16,14 +16,16 @@ class Auth
             $authorizationHeader = $request->header('Authorization');
 
             if (!$authorizationHeader) {
-                return response()->json(['error' => 'Unauthorized'], 401);;
+                return response()->json(['error' => 'Unauthorized'], 401);
+                ;
             }
 
             $accessToken = str_replace('Bearer ', '', $authorizationHeader);
-            $userId = JsonWebToken::decode($accessToken);
+            $userId = JsonWebToken::decode($accessToken)->id;
 
             if (!$userId) {
-                return response()->json(['error' => 'Unauthorized'], 401);;
+                return response()->json(['error' => 'Unauthorized'], 401);
+                ;
             }
 
             $request->merge([

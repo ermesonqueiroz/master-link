@@ -39,7 +39,7 @@ class SignUpRequest extends FormRequest
         throw new HttpResponseException(
             response()->json([
                 'error' => $validator->errors()->first()
-            ])
+            ], 400)
         );
     }
 }
