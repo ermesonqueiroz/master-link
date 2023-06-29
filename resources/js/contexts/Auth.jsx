@@ -32,7 +32,7 @@ export function AuthProvider({ children }) {
             const { payload: data } = await jwtVerify(accessToken, secret);
 
             setUser(data);
-            console.log(data);
+
             if (!data) {
                 setAccessToken(null);
                 setCookie("authorization", null);
