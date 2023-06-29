@@ -15,13 +15,8 @@ import { ShareButton } from "../components";
 import { AddLinkCollapsible } from "../components/AddLinkCollapsible";
 
 export function ApplicationPage() {
-    const [url, setURL] = useState("");
-
     const { isAuthenticated, user, accessToken } = useAuth();
     const [data, setData] = useState([]);
-
-    const [linkFormIsVisible, setLinkFormIsVisible] = useState(false);
-    const [shareIsVisible, setShareIsVisible] = useState(true);
 
     const linkMutation = useMutation({
         mutationFn: async (link) => {
@@ -40,10 +35,6 @@ export function ApplicationPage() {
             title: url.replace(/^https?:\/\//, ""),
             url,
         });
-    }
-
-    function showLinkForm() {
-        setLinkFormIsVisible(true);
     }
 
     useEffect(() => {
