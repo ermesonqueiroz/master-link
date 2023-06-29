@@ -9,7 +9,6 @@ import {
     X,
 } from "@phosphor-icons/react";
 import { useAuth } from "../contexts/Auth";
-import { AnimatePresence } from "framer-motion";
 
 export function ShareButton() {
     const { user } = useAuth();
@@ -40,7 +39,7 @@ export function ShareButton() {
                 </button>
             </Popover.Trigger>
             <Popover.Portal>
-                <Popover.Content align="end" sideOffset={10}>
+                <Popover.Content align="end" sideOffset={10} className="will-change-[transform,opacity] data-[state=open]:data-[side=top]:animate-slideDownAndFade data-[state=open]:data-[side=right]:animate-slideLeftAndFade data-[state=open]:data-[side=bottom]:animate-slideUpAndFade data-[state=open]:data-[side=left]:animate-slideRightAndFade">
                     <div className="bg-white w-96 rounded-xl px-8 py-5 shadow-md">
                         <div className="flex items-center justify-center relative pb-4">
                             <h1 className="text-zinc-800 font-bold text-xl">
