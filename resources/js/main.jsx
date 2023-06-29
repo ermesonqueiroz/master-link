@@ -2,7 +2,7 @@ import React from 'react';
 import './bootstrap';
 import ReactDOM from 'react-dom/client';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
-import { LandingPage, SignupPage, LoginPage, ApplicationPage } from './pages';
+import { LandingPage, SignupPage, LoginPage, ApplicationPage, ProfilePage } from './pages';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import "@fontsource/dm-sans";
 import "@fontsource/dm-sans/500.css";
@@ -28,6 +28,10 @@ const router = createBrowserRouter([
     {
         path: "/app",
         element: <ApplicationPage />
+    },
+    {
+        path: "/:username",
+        element: <ProfilePage />
     }
 ]);
 
