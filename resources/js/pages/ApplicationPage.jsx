@@ -12,6 +12,7 @@ import {
     X,
 } from "@phosphor-icons/react";
 import { ShareButton } from "../components";
+import { AddLinkCollapsible } from "../components/AddLinkCollapsible";
 
 export function ApplicationPage() {
     const [url, setURL] = useState("");
@@ -34,9 +35,7 @@ export function ApplicationPage() {
         },
     });
 
-    async function handleLinkSubmit(e) {
-        e.preventDefault();
-
+    async function handleLinkSubmit(url) {
         linkMutation.mutate({
             title: url.replace(/^https?:\/\//, ""),
             url,
@@ -71,60 +70,10 @@ export function ApplicationPage() {
 
                 <ShareButton />
             </header>
-            <div className="max-w-lg absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full flex items-start flex-col px-4 gap-4">
-                {!linkFormIsVisible ? (
-                    <button
-                        onClick={showLinkForm}
-                        className="bg-zinc-900 w-full h-10 flex items-center justify-center gap-1 leading-none font-medium rounded-full"
-                    >
-                        {!linkMutation.isLoading ? (
-                            <>
-                                <Plus
-                                    className="text-zinc-400"
-                                    size={16}
-                                    weight="bold"
-                                />{" "}
-                                Add link
-                            </>
-                        ) : (
-                            <Spinner
-                                className="text-zinc-200 animate-spin"
-                                size={18}
-                                weight="bold"
-                            />
-                        )}
-                    </button>
-                ) : (
-                    <form
-                        className="bg-white border-zinc-400 border w-full rounded-xl py-6 px-6"
-                        onSubmit={async (e) => await handleLinkSubmit(e)}
-                    >
-                        <div className="flex items-center justify-between pb-4">
-                            <h1 className="text-zinc-800 text-lg font-bold">
-                                Enter URL
-                            </h1>
-
-                            <X
-                                size={16}
-                                className="text-zinc-600"
-                                weight="bold"
-                            />
-                        </div>
-
-                        <div className="flex gap-3">
-                            <input
-                                className="px-4 w-full rounded-lg h-10 bg-zinc-100 text-zinc-800 placeholder:text-zinc-500"
-                                type="url"
-                                placeholder="URL"
-                                onChange={(e) => setURL(e.target.value)}
-                            />
-
-                            <button className="text-zinc-200 font-medium tracking-tight h-10 px-5 rounded-full bg-zinc-800 hover:bg-zinc-700 transition-colors">
-                                Add
-                            </button>
-                        </div>
-                    </form>
-                )}
+            <div className="max-w-lg mx-auto my-14 w-full flex items-center flex-col px-4 gap-4">
+                <AddLinkCollapsible
+                    onSubmit={async (url) => handleLinkSubmit(url)}
+                />
 
                 {data.length > 0 &&
                     data.map((link) => (
