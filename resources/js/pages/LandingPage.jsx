@@ -10,15 +10,15 @@ export function LandingPage() {
                 </Link>
 
                 <div className="flex gap-2 items-center">
-                    <a
-                        href="#"
+                    <Link
+                        to="/signin"
                         className="text-zinc-700 font-medium tracking-tight text-lg h-10 px-4 rounded-full hover:bg-neutral-200 transition-colors flex items-center"
                     >
                         Sign in
-                    </a>
+                    </Link>
 
-                    <Link to="/signup"
-                        href="#"
+                    <Link
+                        to="/signup"
                         className="text-zinc-200 font-medium tracking-tight text-lg h-10 px-4 rounded-full bg-zinc-800 hover:bg-zinc-700 transition-colors flex gap-2 items-center justify-center"
                     >
                         Get started <CaretRight size={14} />

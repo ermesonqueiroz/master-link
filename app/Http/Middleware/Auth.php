@@ -25,7 +25,6 @@ class Auth
 
             if (!$userId) {
                 return response()->json(['error' => 'Unauthorized'], 401);
-                ;
             }
 
             $request->merge([

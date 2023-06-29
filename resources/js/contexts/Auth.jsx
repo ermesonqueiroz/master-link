@@ -53,9 +53,7 @@ export function AuthProvider({ children }) {
                 user,
             }}
         >
-            {isAuthenticated ? (
-                !isFetchingUser && !isLoading
-            ) : !isLoading ? (
+            {(isAuthenticated ? !isFetchingUser && !isLoading : !isLoading) ? (
                 children
             ) : (
                 <div className="flex w-screen h-screen items-center justify-center">
