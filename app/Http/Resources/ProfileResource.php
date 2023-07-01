@@ -7,9 +7,10 @@ use Illuminate\Http\Resources\Json\JsonResource;
 class ProfileResource extends JsonResource
 {
     public function toArray($request): array
-    {   
+    {
         $links = array_map(function ($link) {
             return [
+                'id' => $link['id'],
                 'title' => $link['title'],
                 'url' => $link['url']
             ];

@@ -14,6 +14,7 @@ Route::prefix('auth')->group(function () {
 
 Route::prefix('link')->group(function () {
     Route::get('/{id}', [LinkController::class, 'index']);
+    Route::delete('/{id}', [LinkController::class, 'delete'])->middleware(Auth::class);
     Route::post('/', [LinkController::class, 'create'])->middleware(Auth::class);
 });
 

@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CreateLinkRequest;
 use App\Http\Resources\LinkResource;
 use App\Models\Link;
-use Illuminate\Http\Request;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class LinkController extends Controller
 {
@@ -27,5 +27,20 @@ class LinkController extends Controller
         ]);
 
         $link->save();
+    }
+
+    public static function delete(string $id)
+    {
+        $link = Link::find($id)->delete();
+
+        if (!$link) {
+            throw new HttpResponseException(
+                response()->json([
+                    'error' => 'link not found'
+                ], 400)
+            );
+        }
+
+        return response()->json([], 200);
     }
 }

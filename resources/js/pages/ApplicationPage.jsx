@@ -3,15 +3,7 @@ import { useAuth } from "../contexts/Auth";
 import { api } from "../services/api";
 import { useEffect, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
-import {
-    ArrowSquareOut,
-    Globe,
-    Plus,
-    ShareNetwork,
-    Trash,
-    X,
-} from "@phosphor-icons/react";
-import { ShareButton } from "../components";
+import { DeleteLinkButton, ShareButton } from "../components";
 import { AddLinkCollapsible } from "../components/AddLinkCollapsible";
 
 export function ApplicationPage() {
@@ -74,12 +66,16 @@ export function ApplicationPage() {
                                     {link?.title}
                                 </h1>
 
-                                <button>
-                                    <Trash
-                                        className="text-zinc-800"
-                                        size={20}
-                                    />
-                                </button>
+                                <DeleteLinkButton
+                                    id={link.id}
+                                    onDelete={() => {
+                                        setData([
+                                            ...data.filter(
+                                                ({ id }) => link.id !== id
+                                            ),
+                                        ]);
+                                    }}
+                                />
                             </div>
 
                             <p className="text-zinc-800">{link?.url}</p>
