@@ -3,8 +3,9 @@ import { useAuth } from "../contexts/Auth";
 import { api } from "../services/api";
 import { useEffect, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
-import { DeleteLinkButton, ShareButton } from "../components";
-import { AddLinkCollapsible } from "../components/AddLinkCollapsible";
+import { DeleteLinkButton, ShareButton, AddLinkCollapsible } from "../components";
+import {PencilSimple} from "@phosphor-icons/react";
+import {EditLinkButton} from "../components/EditLinkButton.jsx";
 
 export function ApplicationPage() {
     const { isAuthenticated, user, accessToken } = useAuth();
@@ -60,22 +61,39 @@ export function ApplicationPage() {
 
                 {data.length > 0 &&
                     data.map((link) => (
-                        <div className="bg-white border-zinc-400 border w-full rounded-xl py-4 px-6">
+                        <div key={link.id} className="bg-white border-zinc-400 border w-full rounded-xl py-4 px-6">
                             <div className="flex items-center justify-between">
                                 <h1 className="text-lg text-zinc-800 font-bold">
                                     {link?.title}
                                 </h1>
 
-                                <DeleteLinkButton
-                                    id={link.id}
-                                    onDelete={() => {
-                                        setData([
-                                            ...data.filter(
+                                <div className="flex gap-2">
+                                    <EditLinkButton
+                                        linkData={link}
+                                        onUpdate={(link) => {
+                                            console.log(link)
+
+                                            const filteredLinks = data.filter(
                                                 ({ id }) => link.id !== id
-                                            ),
-                                        ]);
-                                    }}
-                                />
+                                            );
+
+                                            setData([
+                                                ...filteredLinks,
+                                                link
+                                            ]);
+                                        }}
+                                    />
+                                    <DeleteLinkButton
+                                        id={link.id}
+                                        onDelete={() => {
+                                            setData([
+                                                ...data.filter(
+                                                    ({ id }) => link.id !== id
+                                                ),
+                                            ]);
+                                        }}
+                                    />
+                                </div>
                             </div>
 
                             <p className="text-zinc-800">{link?.url}</p>

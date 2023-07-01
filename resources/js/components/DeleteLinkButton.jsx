@@ -51,10 +51,9 @@ export function DeleteLinkButton({ id, onDelete = () => {} }) {
                                 Cancel
                             </button>
                         </Dialog.Close>
-
                         <button
                             onClick={handleDeleteLink}
-                            className="text-red-400 hover:bg-red-100 h-10 px-3 hover:text-red-600 rounded-md transition-colors font-medium"
+                            className="text-red-400 bg-red-50 hover:bg-red-100 h-10 px-3 hover:text-red-600 rounded-md transition-colors font-medium"
                         >
                             Delete
                         </button>
