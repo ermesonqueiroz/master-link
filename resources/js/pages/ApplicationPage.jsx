@@ -3,12 +3,7 @@ import { Link, Navigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import { useAuth } from "../contexts/Auth";
 import { api } from "../services/api";
-import {
-    DeleteLinkButton,
-    ShareButton,
-    AddLinkCollapsible,
-} from "../components";
-import { EditLinkButton } from "../components/EditLinkButton";
+import { ShareButton, AddLinkCollapsible, EditableLink } from "../components";
 
 export function ApplicationPage() {
     const { isAuthenticated, user, accessToken } = useAuth();
@@ -31,6 +26,16 @@ export function ApplicationPage() {
             title: url.replace(/^https?:\/\//, ""),
             url,
         });
+    }
+
+    function onUpdateLink(link) {
+        const filteredLinks = data.filter(({ id }) => link.id !== id);
+
+        setData([...filteredLinks, link]);
+    }
+
+    function onDeleteLink(link) {
+        setData([...data.filter(({ id }) => link.id !== id)]);
     }
 
     useEffect(() => {
@@ -62,41 +67,11 @@ export function ApplicationPage() {
 
                 {data.length > 0 &&
                     data.map((link) => (
-                        <div
-                            key={link.id}
-                            className="bg-white border-zinc-400 border w-full rounded-xl py-4 px-6"
-                        >
-                            <div className="flex items-center justify-between">
-                                <h1 className="text-lg text-zinc-800 font-bold">
-                                    {link?.title}
-                                </h1>
-
-                                <div className="flex gap-2">
-                                    <EditLinkButton
-                                        linkData={link}
-                                        onUpdate={(link) => {
-                                            const filteredLinks = data.filter(
-                                                ({ id }) => link.id !== id
-                                            );
-
-                                            setData([...filteredLinks, link]);
-                                        }}
-                                    />
-                                    <DeleteLinkButton
-                                        id={link.id}
-                                        onDelete={() => {
-                                            setData([
-                                                ...data.filter(
-                                                    ({ id }) => link.id !== id
-                                                ),
-                                            ]);
-                                        }}
-                                    />
-                                </div>
-                            </div>
-
-                            <p className="text-zinc-800">{link?.url}</p>
-                        </div>
+                        <EditableLink
+                            link={link}
+                            onDelete={() => onDeleteLink(link)}
+                            onUpdate={(link) => onUpdateLink(link)}
+                        />
                     ))}
             </div>
         </>

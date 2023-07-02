@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-
 import { Link, useParams } from "react-router-dom";
 import { api } from "../services/api";
+import { ReadonlyLink } from "../components";
 
 export function ProfilePage() {
     const { username } = useParams();
@@ -34,14 +34,7 @@ export function ProfilePage() {
             <div className="max-w-lg mx-auto mt-6 mb-14 w-full flex items-center flex-col px-4 gap-4">
                 {data?.links?.length > 0 &&
                     data?.links?.map((link) => (
-                        <a
-                            key={link?.title}
-                            href={link?.url}
-                            target="blank"
-                            className="bg-white text-zinc-800 font-bold text-center text-lg border-zinc-400 border w-full rounded-xl py-4 px-6"
-                        >
-                            {link?.title}
-                        </a>
+                        <ReadonlyLink key={link.id} link={link} />
                     ))}
             </div>
 
