@@ -1,11 +1,12 @@
-import {PencilSimple, Trash, X} from "@phosphor-icons/react";
+import { PencilSimple, X } from "@phosphor-icons/react";
 import * as Dialog from "@radix-ui/react-dialog";
-import React, {useState} from "react";
-import {useAuth} from "../contexts/Auth.jsx";
-import {useMutation} from "@tanstack/react-query";
-import {api} from "../services/api.js";
+import React, { useState } from "react";
+import { useMutation } from "@tanstack/react-query";
+import PropTypes from "prop-types";
+import { useAuth } from "../contexts/Auth";
+import { api } from "../services/api";
 
-export function EditLinkButton({ linkData, onUpdate = () => {} }) {
+export function EditLinkButton({ linkData, onUpdate }) {
     const [open, setOpen] = useState(false);
     const { accessToken } = useAuth();
 
@@ -16,18 +17,14 @@ export function EditLinkButton({ linkData, onUpdate = () => {} }) {
         mutationFn: async () => {
             const data = {
                 title,
-                url
+                url,
             };
 
-            await api.put(
-                `/link/${linkData.id}`,
-                data,
-                {
-                    headers: {
-                        Authorization: `Bearer ${accessToken}`,
-                    },
-                }
-            );
+            await api.put(`/link/${linkData.id}`, data, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            });
         },
     });
 
@@ -37,14 +34,14 @@ export function EditLinkButton({ linkData, onUpdate = () => {} }) {
         onUpdate({
             id: linkData.id,
             title,
-            url
+            url,
         });
     }
 
     return (
         <Dialog.Root open={open} onOpenChange={setOpen}>
             <Dialog.Trigger asChild>
-                <button>
+                <button type="button">
                     <PencilSimple className="text-zinc-800" size={20} />
                 </button>
             </Dialog.Trigger>
@@ -55,14 +52,18 @@ export function EditLinkButton({ linkData, onUpdate = () => {} }) {
                         Edit link
                     </Dialog.Title>
                     <Dialog.Description className="text-zinc-600">
-                        Make changes to your link here. Click save when you're done.
+                        Make changes to your link here. Click save when
+                        you&apos;re done.
                     </Dialog.Description>
                     <Dialog.Close className="absolute top-4 right-4">
                         <X size={16} className="text-zinc-600" weight="bold" />
                     </Dialog.Close>
                     <div className="py-5 gap-2 flex flex-col">
                         <fieldset className="flex items-center gap-5">
-                            <label className="text-zinc-600 font-medium w-[60px] text-right" htmlFor="title">
+                            <label
+                                htmlFor="title"
+                                className="text-zinc-600 font-medium w-[60px] text-right"
+                            >
                                 Title
                             </label>
                             <input
@@ -73,7 +74,10 @@ export function EditLinkButton({ linkData, onUpdate = () => {} }) {
                             />
                         </fieldset>
                         <fieldset className="flex items-center gap-5">
-                            <label className="text-zinc-600 font-medium w-[60px] text-right" htmlFor="title">
+                            <label
+                                className="text-zinc-600 font-medium w-[60px] text-right"
+                                htmlFor="url"
+                            >
                                 URL
                             </label>
                             <input
@@ -86,12 +90,16 @@ export function EditLinkButton({ linkData, onUpdate = () => {} }) {
                     </div>
                     <div className="mt-3 flex gap-6 justify-end">
                         <Dialog.Close asChild>
-                            <button className="text-zinc-600 hover:text-zinc-800 transition-colors font-medium">
+                            <button
+                                type="button"
+                                className="text-zinc-600 hover:text-zinc-800 transition-colors font-medium"
+                            >
                                 Cancel
                             </button>
                         </Dialog.Close>
 
                         <button
+                            type="submit"
                             onClick={handleUpdateLink}
                             className="text-green-600 bg-green-100 hover:bg-green-200 h-10 px-3 hover:text-green-800 rounded-md transition-colors font-medium"
                         >
@@ -101,5 +109,19 @@ export function EditLinkButton({ linkData, onUpdate = () => {} }) {
                 </Dialog.Content>
             </Dialog.Portal>
         </Dialog.Root>
-    )
+    );
 }
+
+EditLinkButton.propTypes = {
+    linkData: {
+        id: PropTypes.string,
+        title: PropTypes.string,
+        url: PropTypes.string,
+    },
+    onUpdate: PropTypes.func,
+};
+
+EditLinkButton.defaultProps = {
+    linkData: {},
+    onUpdate: () => {},
+};

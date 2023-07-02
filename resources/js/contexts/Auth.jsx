@@ -1,7 +1,8 @@
+import React, { createContext, useContext, useEffect, useState } from "react";
 import { Spinner } from "@phosphor-icons/react";
-import { createContext, useContext, useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import { jwtVerify } from "jose";
+import PropTypes from "prop-types";
 
 const AuthContext = createContext();
 
@@ -13,17 +14,17 @@ export function AuthProvider({ children }) {
     const [cookies, setCookie] = useCookies(["authorization"]);
     const [user, setUser] = useState(null);
 
+    function updateAccessToken(newAccessToken) {
+        setIsAuthenticated(!!newAccessToken);
+        setAccessToken(newAccessToken);
+        setCookie("authorization", newAccessToken);
+    }
+
     useEffect(() => {
         setAccessToken(cookies.authorization);
         setIsAuthenticated(!!cookies.authorization);
         setIsLoading(false);
     }, []);
-
-    function updateAccessToken(accessToken) {
-        setIsAuthenticated(!!accessToken);
-        setAccessToken(accessToken);
-        setCookie("authorization", accessToken);
-    }
 
     useEffect(() => {
         async function execute() {
@@ -69,3 +70,11 @@ export function AuthProvider({ children }) {
 }
 
 export const useAuth = () => useContext(AuthContext);
+
+AuthProvider.propTypes = {
+    children: PropTypes.node,
+};
+
+AuthProvider.defaultProps = {
+    children: null,
+};

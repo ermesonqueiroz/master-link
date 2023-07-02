@@ -1,18 +1,19 @@
+import React, { useState } from "react";
 import * as Collapsible from "@radix-ui/react-collapsible";
 import { Plus, X } from "@phosphor-icons/react";
-import { useState } from "react";
+import PropTypes from "prop-types";
 
-export function AddLinkCollapsible({ onSubmit = () => {} }) {
+export function AddLinkCollapsible({ onSubmit }) {
     const [open, setOpen] = useState(false);
 
-    const [url, setURL] = useState('');
+    const [url, setURL] = useState("");
 
     function handleSubmit(e) {
-        e.preventDefault()
+        e.preventDefault();
 
         onSubmit(url);
 
-        setURL('');
+        setURL("");
         setOpen(false);
     }
 
@@ -20,8 +21,15 @@ export function AddLinkCollapsible({ onSubmit = () => {} }) {
         <Collapsible.Root open={open} onOpenChange={setOpen} className="w-full">
             {!open && (
                 <Collapsible.Trigger asChild>
-                    <button className="bg-zinc-900 h-10 w-full flex items-center justify-center gap-1 leading-none font-medium rounded-full">
-                        <Plus className="text-zinc-400" size={16} weight="bold" />{" "}
+                    <button
+                        type="button"
+                        className="bg-zinc-900 h-10 w-full flex items-center justify-center gap-1 leading-none font-medium rounded-full"
+                    >
+                        <Plus
+                            className="text-zinc-400"
+                            size={16}
+                            weight="bold"
+                        />{" "}
                         Add link
                     </button>
                 </Collapsible.Trigger>
@@ -54,7 +62,10 @@ export function AddLinkCollapsible({ onSubmit = () => {} }) {
                             onChange={(e) => setURL(e.target.value)}
                         />
 
-                        <button className="text-zinc-200 font-medium tracking-tight h-10 px-5 rounded-full bg-zinc-800 hover:bg-zinc-700 transition-colors">
+                        <button
+                            type="button"
+                            className="text-zinc-200 font-medium tracking-tight h-10 px-5 rounded-full bg-zinc-800 hover:bg-zinc-700 transition-colors"
+                        >
                             Add
                         </button>
                     </div>
@@ -63,3 +74,11 @@ export function AddLinkCollapsible({ onSubmit = () => {} }) {
         </Collapsible.Root>
     );
 }
+
+AddLinkCollapsible.propTypes = {
+    onSubmit: PropTypes.func,
+};
+
+AddLinkCollapsible.defaultProps = {
+    onSubmit: () => {},
+};

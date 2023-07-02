@@ -1,9 +1,9 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { CaretLeft, CaretRight, Spinner } from "@phosphor-icons/react";
 import { useMutation } from "@tanstack/react-query";
-import { api } from "../services/api.js";
 import { Link, Navigate } from "react-router-dom";
-import { useAuth } from "../contexts/Auth.jsx";
+import { api } from "../services/api";
+import { useAuth } from "../contexts/Auth";
 
 export function SignupPage() {
     const [username, setUsername] = useState("");
@@ -28,11 +28,11 @@ export function SignupPage() {
             username,
             display_name: displayName,
             email,
-            password
+            password,
         });
     }
 
-    if (isAuthenticated) return <Navigate to="/app" />
+    if (isAuthenticated) return <Navigate to="/app" />;
     return (
         <div>
             <header className="absolute px-4 md:px-8 mt-8 top-0">
@@ -52,7 +52,10 @@ export function SignupPage() {
                     Sign up to unilink
                 </h1>
                 <p className="text-zinc-500 text-lg pb-4">
-                    Already have an account? <Link to="/signin" className="text-blue-400">Sign in</Link>
+                    Already have an account?{" "}
+                    <Link to="/signin" className="text-blue-400">
+                        Sign in
+                    </Link>
                 </p>
 
                 <div className="flex flex-col gap-1 w-full pb-2">
@@ -102,7 +105,11 @@ export function SignupPage() {
                     {!registerMutation.isLoading ? (
                         <>
                             Continue{" "}
-                            <CaretRight className="text-zinc-400" size={16} weight="bold" />
+                            <CaretRight
+                                className="text-zinc-400"
+                                size={16}
+                                weight="bold"
+                            />
                         </>
                     ) : (
                         <Spinner

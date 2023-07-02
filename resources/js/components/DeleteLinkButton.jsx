@@ -2,10 +2,11 @@ import React, { useState } from "react";
 import * as Dialog from "@radix-ui/react-dialog";
 import { Trash, X } from "@phosphor-icons/react";
 import { useMutation } from "@tanstack/react-query";
+import PropTypes from "prop-types";
 import { api } from "../services/api";
 import { useAuth } from "../contexts/Auth";
 
-export function DeleteLinkButton({ id, onDelete = () => {} }) {
+export function DeleteLinkButton({ id, onDelete }) {
     const [open, setOpen] = useState(false);
     const { accessToken } = useAuth();
 
@@ -28,7 +29,7 @@ export function DeleteLinkButton({ id, onDelete = () => {} }) {
     return (
         <Dialog.Root open={open} onOpenChange={setOpen}>
             <Dialog.Trigger asChild>
-                <button>
+                <button type="button">
                     <Trash className="text-zinc-800" size={20} />
                 </button>
             </Dialog.Trigger>
@@ -47,11 +48,15 @@ export function DeleteLinkButton({ id, onDelete = () => {} }) {
                     </Dialog.Close>
                     <div className="mt-3 flex gap-6 justify-end">
                         <Dialog.Close asChild>
-                            <button className="text-zinc-600 hover:text-zinc-800 transition-colors font-medium">
+                            <button
+                                className="text-zinc-600 hover:text-zinc-800 transition-colors font-medium"
+                                type="button"
+                            >
                                 Cancel
                             </button>
                         </Dialog.Close>
                         <button
+                            type="button"
                             onClick={handleDeleteLink}
                             className="text-red-400 bg-red-50 hover:bg-red-100 h-10 px-3 hover:text-red-600 rounded-md transition-colors font-medium"
                         >
@@ -63,3 +68,13 @@ export function DeleteLinkButton({ id, onDelete = () => {} }) {
         </Dialog.Root>
     );
 }
+
+DeleteLinkButton.propTypes = {
+    id: PropTypes.string,
+    onDelete: PropTypes.func,
+};
+
+DeleteLinkButton.defaultProps = {
+    id: null,
+    onDelete: () => {},
+};

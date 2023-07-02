@@ -1,6 +1,6 @@
+import React, { useState } from "react";
 import { CaretLeft, CaretRight, Spinner } from "@phosphor-icons/react";
 import { useMutation } from "@tanstack/react-query";
-import { useState } from "react";
 import { Link, Navigate } from "react-router-dom";
 import { api } from "../services/api";
 import { useAuth } from "../contexts/Auth";
@@ -48,7 +48,7 @@ export function LoginPage() {
                     Log in to unilink
                 </h1>
                 <p className="text-zinc-500 text-lg pb-4">
-                    Don't have an account yet?{" "}
+                    Don&apos;t have an account yet?{" "}
                     <Link to="/signup" className="text-blue-400">
                         Sign Up
                     </Link>
@@ -67,7 +67,9 @@ export function LoginPage() {
                 <div className="flex flex-col gap-1 w-full pb-3">
                     <span className="flex justify-between">
                         <p className="text-zinc-700">Password</p>
-                        <a className="text-zinc-500">Forgot your password?</a>
+                        <a className="text-zinc-500" href="#forgot-password">
+                            Forgot your password?
+                        </a>
                     </span>
                     <input
                         className="border-zinc-300 border px-2 rounded-md h-10 bg-zinc-100 w-full text-zinc-800 placeholder:text-zinc-500"

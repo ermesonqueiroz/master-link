@@ -1,3 +1,4 @@
+import React from "react";
 import { CaretRight } from "@phosphor-icons/react";
 import { Link } from "react-router-dom";
 
@@ -5,7 +6,10 @@ export function LandingPage() {
     return (
         <>
             <header className="flex px-8 py-4 justify-between items-center">
-                <Link to="/" className="font-bold text-zinc-900 text-2xl tracking-tight">
+                <Link
+                    to="/"
+                    className="font-bold text-zinc-900 text-2xl tracking-tight"
+                >
                     unilink
                 </Link>
 
