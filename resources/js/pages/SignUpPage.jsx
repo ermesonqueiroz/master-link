@@ -1,14 +1,17 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { CaretLeft, CaretRight, Spinner } from "@phosphor-icons/react";
 import { useMutation } from "@tanstack/react-query";
-import { Link, Navigate } from "react-router-dom";
+import { Link, Navigate, useLocation } from "react-router-dom";
 import { api } from "../services/api";
 import { useAuth } from "../contexts/Auth";
 
 export function SignupPage() {
+    const { search } = useLocation();
+    const params = new URLSearchParams(search);
+
     const [username, setUsername] = useState("");
     const [displayName, setDisplayName] = useState("");
-    const [email, setEmail] = useState("");
+    const [email, setEmail] = useState(params.get("email") ?? "");
     const [password, setPassword] = useState("");
 
     const { updateAccessToken, isAuthenticated } = useAuth();
@@ -31,6 +34,10 @@ export function SignupPage() {
             password,
         });
     }
+
+    useEffect(() => {
+        setEmail(params.get("email"));
+    }, []);
 
     if (isAuthenticated) return <Navigate to="/app" />;
     return (
@@ -65,6 +72,7 @@ export function SignupPage() {
                         type="text"
                         placeholder="johndoe"
                         onChange={(e) => setUsername(e.target.value)}
+                        value={username}
                     />
                 </div>
 
@@ -75,6 +83,7 @@ export function SignupPage() {
                         type="text"
                         placeholder="John Doe"
                         onChange={(e) => setDisplayName(e.target.value)}
+                        value={displayName}
                     />
                 </div>
 
@@ -85,6 +94,7 @@ export function SignupPage() {
                         type="email"
                         placeholder="john.doe@example.com"
                         onChange={(e) => setEmail(e.target.value)}
+                        value={email}
                     />
                 </div>
 
@@ -95,6 +105,7 @@ export function SignupPage() {
                         type="password"
                         placeholder="••••••••"
                         onChange={(e) => setPassword(e.target.value)}
+                        value={password}
                     />
                 </div>
 

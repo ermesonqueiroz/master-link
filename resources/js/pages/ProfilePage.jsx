@@ -18,7 +18,7 @@ export function ProfilePage() {
     }, []);
 
     return (
-        <div className="mt-20 mb-8 mx-auto w-full max-w-screen-lg flex items-center flex-col px-4">
+        <div className="mt-20 mx-auto w-full max-w-screen-lg flex items-center flex-col px-4">
             <img
                 src={`https://ui-avatars.com/api/?background=111&color=f1f2f6&name=${data?.display_name}`}
                 alt={username}
@@ -38,7 +38,7 @@ export function ProfilePage() {
                     ))}
             </div>
 
-            <footer>
+            <footer className="absolute bottom-6">
                 <Link
                     to="/"
                     className="font-bold text-zinc-900 text-2xl tracking-tight"
