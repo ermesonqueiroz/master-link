@@ -63,7 +63,7 @@ export function AddLinkCollapsible({ onSubmit }) {
                         />
 
                         <button
-                            type="button"
+                            type="submit"
                             className="text-zinc-200 font-medium tracking-tight h-10 px-5 rounded-full bg-zinc-800 hover:bg-zinc-700 transition-colors"
                         >
                             Add

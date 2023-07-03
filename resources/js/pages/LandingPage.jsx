@@ -34,23 +34,23 @@ export function LandingPage() {
             <main className="h-[calc(100vh_-_80px)] w-[60vw] mx-auto flex gap-20 items-center   justify-between">
                 <div className="flex w-fit flex-col -mt-[100px] gap-8">
                     <div className="flex flex-col gap-4">
-                        <Balancer>
-                            <h1 className="font-bold text-zinc-900 text-6xl tracking-tight leading-tight">
+                        <h1 className="font-bold text-zinc-900 text-6xl tracking-tight leading-tight">
+                            <Balancer>
                                 Streamline and{" "}
                                 <span className="bg-zinc-900 text-zinc-50 px-3">
                                     boost
                                 </span>
                                 <br />
                                 your online presence
-                            </h1>
-                        </Balancer>
-                        <Balancer>
-                            <p className="text-zinc-500 text-xl">
+                            </Balancer>
+                        </h1>
+                        <p className="text-zinc-500 text-xl">
+                            <Balancer>
                                 Share all your social media profiles with just
                                 one link. Simplify and streamline your online
                                 presence effortlessly.
-                            </p>
-                        </Balancer>
+                            </Balancer>
+                        </p>
                     </div>
 
                     <form

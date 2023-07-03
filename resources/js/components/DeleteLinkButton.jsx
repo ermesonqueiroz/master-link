@@ -1,29 +1,14 @@
 import React, { useState } from "react";
 import * as Dialog from "@radix-ui/react-dialog";
 import { Trash, X } from "@phosphor-icons/react";
-import { useMutation } from "@tanstack/react-query";
 import PropTypes from "prop-types";
-import { api } from "../services/api";
-import { useAuth } from "../contexts/Auth";
 
-export function DeleteLinkButton({ id, onDelete }) {
+export function DeleteLinkButton({ onDelete }) {
     const [open, setOpen] = useState(false);
-    const { accessToken } = useAuth();
-
-    const deleteLinkMutation = useMutation({
-        mutationFn: async () => {
-            await api.delete(`/link/${id}`, {
-                headers: {
-                    Authorization: `Bearer ${accessToken}`,
-                },
-            });
-        },
-    });
 
     function handleDeleteLink() {
-        deleteLinkMutation.mutate();
-        setOpen(false);
         onDelete();
+        setOpen(false);
     }
 
     return (
@@ -70,11 +55,9 @@ export function DeleteLinkButton({ id, onDelete }) {
 }
 
 DeleteLinkButton.propTypes = {
-    id: PropTypes.string,
     onDelete: PropTypes.func,
 };
 
 DeleteLinkButton.defaultProps = {
-    id: null,
     onDelete: () => {},
 };

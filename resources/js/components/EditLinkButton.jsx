@@ -1,41 +1,20 @@
 import { PencilSimple, X } from "@phosphor-icons/react";
 import * as Dialog from "@radix-ui/react-dialog";
 import React, { useState } from "react";
-import { useMutation } from "@tanstack/react-query";
-import PropTypes from "prop-types";
-import { useAuth } from "../contexts/Auth";
-import { api } from "../services/api";
 
 export function EditLinkButton({ linkData, onUpdate }) {
     const [open, setOpen] = useState(false);
-    const { accessToken } = useAuth();
 
     const [title, setTitle] = useState(linkData.title);
     const [url, setURL] = useState(linkData.url);
 
-    const updateLinkMutation = useMutation({
-        mutationFn: async () => {
-            const data = {
-                title,
-                url,
-            };
-
-            await api.put(`/link/${linkData.id}`, data, {
-                headers: {
-                    Authorization: `Bearer ${accessToken}`,
-                },
-            });
-        },
-    });
-
     function handleUpdateLink() {
-        updateLinkMutation.mutate();
-        setOpen(false);
         onUpdate({
-            id: linkData.id,
+            ...linkData,
             title,
             url,
         });
+        setOpen(false);
     }
 
     return (
@@ -111,17 +90,3 @@ export function EditLinkButton({ linkData, onUpdate }) {
         </Dialog.Root>
     );
 }
-
-EditLinkButton.propTypes = {
-    linkData: {
-        id: PropTypes.string,
-        title: PropTypes.string,
-        url: PropTypes.string,
-    },
-    onUpdate: PropTypes.func,
-};
-
-EditLinkButton.defaultProps = {
-    linkData: {},
-    onUpdate: () => {},
-};

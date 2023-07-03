@@ -16,7 +16,8 @@ class LinkFactory extends Factory
             'userId' => fake()->uuid(),
             'title' => fake()->title(),
             'url' => fake()->url(),
-            'active' => true
+            'active' => true,
+            'index' => 0
         ];
     }
 }

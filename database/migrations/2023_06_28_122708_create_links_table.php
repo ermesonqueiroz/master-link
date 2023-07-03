@@ -14,6 +14,8 @@ return new class extends Migration
             $table->string('userId');
             $table->string('title');
             $table->string('url');
+            $table->boolean('active');
+            $table->integer('nidex');
         });
     }
 

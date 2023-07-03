@@ -17,7 +17,8 @@ class Link extends Model
         'userId',
         'title',
         'url',
-        'active'
+        'active',
+        'index'
     ];
 
     protected $hidden = [

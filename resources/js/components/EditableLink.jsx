@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 import { DeleteLinkButton } from "./DeleteLinkButton";
 import { EditLinkButton } from "./EditLinkButton";
 import { ToggleLinkVisibility } from "./ToggleLinkVisibility";
@@ -38,23 +37,3 @@ export function EditableLink({
         </div>
     );
 }
-
-EditableLink.propTypes = {
-    link: {
-        id: PropTypes.string,
-        title: PropTypes.string,
-        url: PropTypes.string,
-    },
-    active: PropTypes.bool,
-    onActiveChange: PropTypes.func,
-    onUpdate: PropTypes.func,
-    onDelete: PropTypes.func,
-};
-
-EditableLink.defaultProps = {
-    link: null,
-    active: true,
-    onActiveChange: null,
-    onUpdate: null,
-    onDelete: null,
-};

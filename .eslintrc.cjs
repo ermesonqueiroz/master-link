@@ -17,5 +17,8 @@ module.exports = {
         "react/jsx-no-constructed-context-values": "off",
         "import/no-extraneous-dependencies": "off",
         "jsx-a11y/anchor-is-valid": "off",
+        "react/jsx-props-no-spreading": "off",
+        "react/jsx-no-bind": "off",
+        "react/prop-types": "off",
     },
 };

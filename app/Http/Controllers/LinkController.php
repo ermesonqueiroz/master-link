@@ -25,10 +25,15 @@ class LinkController extends Controller
             'userId' => $request['userId'],
             'title' => $request['title'],
             'url' => $request['url'],
-            'active' => true
+            'active' => true,
+            'index' => $request['index']
         ]);
 
         $link->save();
+
+        $linkResource = new LinkResource($link);
+
+        return $linkResource->toArray($request);
     }
 
     public static function delete(string $id)
@@ -51,7 +56,8 @@ class LinkController extends Controller
         $link = Link::find($id)->update([
             'title' => $request['title'],
             'url' => $request['url'],
-            'active' => $request['active']
+            'active' => $request['active'],
+            'index' => $request['index']
         ]);
 
         if (!$link) {

@@ -16,7 +16,8 @@ class UpdateLinkRequest extends FormRequest
         return [
             'title' => 'required',
             'url' => 'required',
-            'active' => 'required|boolean'
+            'active' => 'required|boolean',
+            'index' => 'required'
         ];
     }
 }

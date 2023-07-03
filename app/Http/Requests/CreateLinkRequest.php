@@ -17,7 +17,8 @@ class CreateLinkRequest extends FormRequest
     {
         return [
             'title' => 'required',
-            'url' => 'required'
+            'url' => 'required',
+            'index' => 'required'
         ];
     }
 
@@ -25,7 +26,8 @@ class CreateLinkRequest extends FormRequest
     {
         return [
             'title.required' => 'title is required.',
-            'url.required' => 'url is required.'
+            'url.required' => 'url is required.',
+            'index.required' => 'index is required.'
         ];
     }
 

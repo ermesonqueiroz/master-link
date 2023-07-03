@@ -33,9 +33,11 @@ export function ProfilePage() {
 
             <div className="max-w-lg mx-auto mt-6 mb-14 w-full flex items-center flex-col px-4 gap-4">
                 {data?.links?.length > 0 &&
-                    data?.links?.map((link) => (
-                        <ReadonlyLink key={link.id} link={link} />
-                    ))}
+                    data?.links
+                        ?.sort(({ index: a }, { index: b }) => a - b)
+                        ?.map((link) => (
+                            <ReadonlyLink key={link.id} link={link} />
+                        ))}
             </div>
 
             <footer className="absolute bottom-6">

@@ -13,7 +13,8 @@ class LinkResource extends JsonResource
             'id' => $this->id,
             'url' => $this->url,
             'title' => $this->title,
-            'active' => $this->active
+            'active' => $this->active,
+            'index' => $this->index
         ];
     }
 }
