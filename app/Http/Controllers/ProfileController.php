@@ -15,7 +15,10 @@ class ProfileController extends Controller
             ->get()
             ->first();
 
-        $links = Link::where('userId', $user->id)->get()->toArray();
+        $links = Link::where('userId', $user->id)
+            ->where('active', true)
+            ->get()
+            ->toArray();
 
         if (!$user) {
             return response([], 404);

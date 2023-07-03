@@ -38,6 +38,36 @@ export function ApplicationPage() {
         setData([...data.filter(({ id }) => link.id !== id)]);
     }
 
+    const changeActiveLinkMutation = useMutation({
+        mutationFn: async (link) => {
+            await api.put(
+                `/link/${link.id}`,
+                { ...link },
+                {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                }
+            );
+        },
+    });
+
+    function handleActiveChange(linkToUpdate, active) {
+        changeActiveLinkMutation.mutate({ ...linkToUpdate, active });
+        setData([
+            ...data.map((link) => {
+                if (link.id === linkToUpdate.id) {
+                    return {
+                        ...link,
+                        active,
+                    };
+                }
+
+                return link;
+            }),
+        ]);
+    }
+
     useEffect(() => {
         async function execute() {
             const { data: response } = await api.get(`/link/${user?.id}`);
@@ -71,6 +101,10 @@ export function ApplicationPage() {
                             link={link}
                             onDelete={() => onDeleteLink(link)}
                             onUpdate={(link) => onUpdateLink(link)}
+                            active={link?.active}
+                            onActiveChange={(active) =>
+                                handleActiveChange(link, active)
+                            }
                         />
                     ))}
             </div>

@@ -16,7 +16,8 @@ class Link extends Model
     protected $fillable = [
         'userId',
         'title',
-        'url'
+        'url',
+        'active'
     ];
 
     protected $hidden = [

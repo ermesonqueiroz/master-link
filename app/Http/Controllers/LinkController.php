@@ -24,7 +24,8 @@ class LinkController extends Controller
         $link = new Link([
             'userId' => $request['userId'],
             'title' => $request['title'],
-            'url' => $request['url']
+            'url' => $request['url'],
+            'active' => true
         ]);
 
         $link->save();
@@ -49,7 +50,8 @@ class LinkController extends Controller
     {
         $link = Link::find($id)->update([
             'title' => $request['title'],
-            'url' => $request['url']
+            'url' => $request['url'],
+            'active' => $request['active']
         ]);
 
         if (!$link) {

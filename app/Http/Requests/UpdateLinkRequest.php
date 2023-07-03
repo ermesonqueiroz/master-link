@@ -14,8 +14,9 @@ class UpdateLinkRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => 'nullable',
-            'url' => 'nullable'
+            'title' => 'required',
+            'url' => 'required',
+            'active' => 'required|boolean'
         ];
     }
 }
