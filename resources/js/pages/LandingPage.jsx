@@ -31,10 +31,10 @@ export function LandingPage() {
                 </div>
             </header>
 
-            <main className="h-[calc(100vh_-_80px)] w-[60vw] mx-auto flex gap-20 items-center   justify-between">
-                <div className="flex w-fit flex-col -mt-[100px] gap-8">
+            <main className="min-h-[calc(100vh-80px)] flex items-center justify-center flex-col lg:flex-row mt-[100px] lg:mt-0 gap-x-20 gap-y-8 px-10">
+                <div className="flex flex-col gap-8">
                     <div className="flex flex-col gap-4">
-                        <h1 className="font-bold text-zinc-900 text-6xl tracking-tight leading-tight">
+                        <h1 className="font-bold min-w-max text-zinc-900 text-6xl tracking-tight leading-tight">
                             <Balancer>
                                 Streamline and{" "}
                                 <span className="bg-zinc-900 text-zinc-50 px-3">
@@ -73,11 +73,9 @@ export function LandingPage() {
                     </form>
                 </div>
 
-                <img
-                    src="/lp-demo.png"
-                    alt="unilink"
-                    className="h-[80%] w-auto"
-                />
+                <div className="w-full max-w-[380px] flex items-center justify-center">
+                    <img src="/lp-demo.png" alt="unilink" className="w-full" />
+                </div>
             </main>
         </>
     );
