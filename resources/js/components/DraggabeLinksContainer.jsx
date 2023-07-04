@@ -14,7 +14,7 @@ export function DraggableLinksContainer() {
         const [reorderedItem] = items.splice(result.source.index, 1);
         items.splice(result.destination.index, 0, reorderedItem);
 
-        items.forEach((item, index) => updateLink.mutate({ ...item, index }));
+        items.forEach((item, index) => updateLink({ ...item, index }));
     }
 
     return (
