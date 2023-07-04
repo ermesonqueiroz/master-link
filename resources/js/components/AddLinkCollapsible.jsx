@@ -1,17 +1,22 @@
 import React, { useState } from "react";
 import * as Collapsible from "@radix-ui/react-collapsible";
 import { Plus, X } from "@phosphor-icons/react";
-import PropTypes from "prop-types";
+import { useLink } from "../contexts/Link";
 
-export function AddLinkCollapsible({ onSubmit }) {
+export function AddLinkCollapsible() {
     const [open, setOpen] = useState(false);
-
     const [url, setURL] = useState("");
+
+    const { links, addLink } = useLink();
 
     function handleSubmit(e) {
         e.preventDefault();
 
-        onSubmit(url);
+        addLink({
+            title: url.replace(/^https?:\/\//, ""),
+            url,
+            index: links.length,
+        });
 
         setURL("");
         setOpen(false);
@@ -74,11 +79,3 @@ export function AddLinkCollapsible({ onSubmit }) {
         </Collapsible.Root>
     );
 }
-
-AddLinkCollapsible.propTypes = {
-    onSubmit: PropTypes.func,
-};
-
-AddLinkCollapsible.defaultProps = {
-    onSubmit: () => {},
-};

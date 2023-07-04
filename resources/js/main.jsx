@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { CookiesProvider } from "react-cookie";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { QueryClientProvider } from "@tanstack/react-query";
 import {
     LandingPage,
     SignupPage,
@@ -13,10 +13,9 @@ import {
 import "@fontsource/dm-sans";
 import "@fontsource/dm-sans/500.css";
 import "@fontsource/dm-sans/700.css";
-import { AuthProvider } from "./contexts/Auth";
 import "./bootstrap";
-
-const queryClient = new QueryClient();
+import { queryClient } from "./services/query-client";
+import { AuthProvider, LinkProvider } from "./contexts";
 
 const router = createBrowserRouter([
     {
@@ -44,11 +43,13 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById("root")).render(
     <React.StrictMode>
         <CookiesProvider>
-            <AuthProvider>
-                <QueryClientProvider client={queryClient}>
-                    <RouterProvider router={router} />
-                </QueryClientProvider>
-            </AuthProvider>
+            <QueryClientProvider client={queryClient}>
+                <AuthProvider>
+                    <LinkProvider>
+                        <RouterProvider router={router} />
+                    </LinkProvider>
+                </AuthProvider>
+            </QueryClientProvider>
         </CookiesProvider>
     </React.StrictMode>
 );

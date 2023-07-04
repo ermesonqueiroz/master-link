@@ -1,11 +1,20 @@
 import React from "react";
 import * as Switch from "@radix-ui/react-switch";
-import PropTypes from "prop-types";
+import { useLink } from "../contexts/Link";
 
-export function ToggleLinkVisibility({ checked, onCheckedChange }) {
+export function ToggleLinkVisibility({ link }) {
+    const { updateLink } = useLink();
+
+    function onCheckedChange(active) {
+        updateLink({
+            ...link,
+            active,
+        });
+    }
+
     return (
         <Switch.Root
-            checked={checked}
+            checked={link?.active}
             onCheckedChange={onCheckedChange}
             className="w-[42px] h-[25px] bg-gray-500 rounded-full relative data-[state=checked]:bg-green-700 outline-none"
             style={{ WebkitTapHighlightColor: "rgba(0, 0, 0, 0)" }}
@@ -14,13 +23,3 @@ export function ToggleLinkVisibility({ checked, onCheckedChange }) {
         </Switch.Root>
     );
 }
-
-ToggleLinkVisibility.propTypes = {
-    checked: PropTypes.bool,
-    onCheckedChange: PropTypes.func,
-};
-
-ToggleLinkVisibility.defaultProps = {
-    checked: true,
-    onCheckedChange: null,
-};

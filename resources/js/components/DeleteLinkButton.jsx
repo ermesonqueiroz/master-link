@@ -1,13 +1,15 @@
 import React, { useState } from "react";
 import * as Dialog from "@radix-ui/react-dialog";
 import { Trash, X } from "@phosphor-icons/react";
-import PropTypes from "prop-types";
+import { useLink } from "../contexts/Link";
 
-export function DeleteLinkButton({ onDelete }) {
+export function DeleteLinkButton({ linkId }) {
     const [open, setOpen] = useState(false);
 
+    const { deleteLink } = useLink();
+
     function handleDeleteLink() {
-        onDelete();
+        deleteLink(linkId);
         setOpen(false);
     }
 
@@ -53,11 +55,3 @@ export function DeleteLinkButton({ onDelete }) {
         </Dialog.Root>
     );
 }
-
-DeleteLinkButton.propTypes = {
-    onDelete: PropTypes.func,
-};
-
-DeleteLinkButton.defaultProps = {
-    onDelete: () => {},
-};

@@ -1,19 +1,22 @@
 import { PencilSimple, X } from "@phosphor-icons/react";
 import * as Dialog from "@radix-ui/react-dialog";
 import React, { useState } from "react";
+import { useLink } from "../contexts/Link";
 
-export function EditLinkButton({ linkData, onUpdate }) {
+export function EditLinkButton({ link }) {
     const [open, setOpen] = useState(false);
+    const [title, setTitle] = useState(link.title);
+    const [url, setURL] = useState(link.url);
 
-    const [title, setTitle] = useState(linkData.title);
-    const [url, setURL] = useState(linkData.url);
+    const { updateLink } = useLink();
 
     function handleUpdateLink() {
-        onUpdate({
-            ...linkData,
+        updateLink({
+            ...link,
             title,
             url,
         });
+
         setOpen(false);
     }
 
@@ -48,7 +51,7 @@ export function EditLinkButton({ linkData, onUpdate }) {
                             <input
                                 className="text-zinc border text-zinc-800 border-zinc-400 h-10 w-full flex-1 items-center justify-center rounded-md px-3 leading-none outline-none"
                                 id="title"
-                                defaultValue={linkData?.title}
+                                defaultValue={link?.title}
                                 onChange={(e) => setTitle(e.target.value)}
                             />
                         </fieldset>
@@ -62,7 +65,7 @@ export function EditLinkButton({ linkData, onUpdate }) {
                             <input
                                 className="text-zinc border text-zinc-800 border-zinc-400 h-10 w-full flex-1 items-center justify-center rounded-md px-3 leading-none outline-none"
                                 id="url"
-                                defaultValue={linkData?.url}
+                                defaultValue={link?.url}
                                 onChange={(e) => setURL(e.target.value)}
                             />
                         </fieldset>
