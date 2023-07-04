@@ -33,7 +33,7 @@ export function LandingPage() {
 
             <main className="min-h-[calc(100vh-80px)] flex items-center justify-center flex-col lg:flex-row mt-[100px] lg:mt-0 gap-x-20 gap-y-8 px-10">
                 <div className="flex flex-col gap-8">
-                    <div className="flex flex-col gap-4">
+                    <div className="flex w-min flex-col gap-4">
                         <h1 className="font-bold min-w-max text-zinc-900 text-6xl tracking-tight leading-tight">
                             <Balancer>
                                 Streamline and{" "}
