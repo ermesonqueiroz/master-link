@@ -11,6 +11,7 @@ export function AuthProvider({ children }) {
     const [cookies, setCookie] = useCookies(["authorization"]);
     const [isLoading, setIsLoading] = useState(true);
     const queryClient = useQueryClient();
+    const [avatar, setAvatar] = useState();
 
     const { data: user } = useQuery({
         queryKey: ["user"],
@@ -83,6 +84,8 @@ export function AuthProvider({ children }) {
                 isAuthenticated,
                 user,
                 updateUser,
+                avatar,
+                setAvatar,
             }}
         >
             {!isLoading ? (

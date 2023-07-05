@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { api } from "../services/api";
-import { Avatar, ReadonlyLink } from "../components";
+import { FallbackImage, ReadonlyLink } from "../components";
 
 export function ProfilePage() {
     const { username } = useParams();
@@ -20,10 +20,10 @@ export function ProfilePage() {
     return (
         <div className="mt-20 mx-auto w-full max-w-screen-lg flex items-center flex-col px-4">
             <div className="w-36">
-                <Avatar
-                    id={data?.id}
-                    displayName={data?.displayName}
-                    size={20}
+                <FallbackImage
+                    src={`/storage/avatars/${data?.id}`}
+                    fallbackImage={`https://api.dicebear.com/6.x/initials/svg?seed=${data?.displayName}&scale=50&radius=50&backgroundColor=111111&chars=2`}
+                    className="rounded-full aspect-square w-full object-cover object-center"
                     alt={data?.username}
                 />
             </div>

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useAuth } from "../contexts/Auth";
 import { Avatar } from "./Avatar";
+import { UploadAvatarDialog } from "./UploadAvatarButton";
 
 export function ProfileSettings() {
     const { user, updateUser } = useAuth();
@@ -28,19 +29,10 @@ export function ProfileSettings() {
             <div className="flex flex-col p-6 rounded-xl bg-white border border-zinc-400 gap-2">
                 <div className="flex gap-6">
                     <div className="w-32">
-                        <Avatar
-                            id={user?.id}
-                            displayName={user?.displayName}
-                            alt={user?.username}
-                        />
+                        <Avatar />
                     </div>
                     <div className="flex w-full flex-col gap-2">
-                        <button
-                            type="button"
-                            className="h-10 font-medium rounded-full text-zinc-200 bg-zinc-800"
-                        >
-                            Update Avatar
-                        </button>
+                        <UploadAvatarDialog />
                         <button
                             type="button"
                             className="h-10 font-medium rounded-full text-zinc-800 border border-gray-400"
