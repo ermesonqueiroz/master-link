@@ -9,3 +9,5 @@ export * from "./ApplicationHeader";
 export * from "./Avatar";
 export * from "./ProfileSettings";
 export * from "./FallbackImage";
+export * from "./UploadAvatarButton";
+export * from "./DeleteAvatarButton";

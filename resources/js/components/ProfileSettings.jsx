@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useAuth } from "../contexts/Auth";
 import { Avatar } from "./Avatar";
 import { UploadAvatarDialog } from "./UploadAvatarButton";
+import { DeleteAvatarButton } from "./DeleteAvatarButton";
 
 export function ProfileSettings() {
     const { user, updateUser } = useAuth();
@@ -33,12 +34,7 @@ export function ProfileSettings() {
                     </div>
                     <div className="flex w-full flex-col gap-2">
                         <UploadAvatarDialog />
-                        <button
-                            type="button"
-                            className="h-10 font-medium rounded-full text-zinc-800 border border-gray-400"
-                        >
-                            Remove Avatar
-                        </button>
+                        <DeleteAvatarButton />
                     </div>
                 </div>
 

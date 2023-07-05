@@ -27,6 +27,7 @@ Route::prefix('profile')->group(function () {
 
 Route::prefix('user')->group(function () {
     Route::post('/avatar', [UserAvatarController::class, 'store'])->middleware(Auth::class);
+    Route::delete('/avatar', [UserAvatarController::class, 'delete'])->middleware(Auth::class);
     Route::get('/', [UserController::class, 'index'])->middleware(Auth::class);
     Route::put('/', [UserController::class, 'update'])->middleware(Auth::class);
 });
