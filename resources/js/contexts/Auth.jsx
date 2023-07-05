@@ -54,10 +54,6 @@ export function AuthProvider({ children }) {
         },
     });
 
-    useEffect(() => {
-        console.log(user);
-    }, [user]);
-
     function updateAccessToken(newAccessToken) {
         queryClient.invalidateQueries(["user"]);
         setCookie("authorization", newAccessToken);
