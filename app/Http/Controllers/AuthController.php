@@ -81,10 +81,7 @@ class AuthController extends Controller
             'userId' => $userFound['id']
         ]);
         $accessToken = JsonWebToken::encode([
-            'id' => $userFound['id'],
-            'username' => $userFound['username'],
-            'displayName' => $userFound['displayName'],
-            'email' => $userFound['email']
+            'id' => $userFound['id']
         ]);
 
         $refreshToken->save();
@@ -109,16 +106,11 @@ class AuthController extends Controller
 
         RefreshToken::where('userId', $refreshToken['userId'])->delete();
 
-        $user = User::find($refreshToken['userId'])->get();
-
         $refreshToken = new RefreshToken([
             'userId' => $refreshToken['userId']
         ]);
         $accessToken = JsonWebToken::encode([
-            'id' => $refreshToken['userId'],
-            'username' => $user['username'],
-            'displayName' => $user['displayName'],
-            'email' => $user['email']
+            'id' => $refreshToken['userId']
         ]);
 
         $refreshToken->save();

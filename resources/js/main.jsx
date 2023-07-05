@@ -31,7 +31,7 @@ const router = createBrowserRouter([
         element: <LoginPage />,
     },
     {
-        path: "/app",
+        path: "/app/*",
         element: <ApplicationPage />,
     },
     {

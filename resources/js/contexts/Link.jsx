@@ -6,7 +6,7 @@ import { useAuth } from "./Auth";
 const LinkContext = createContext();
 
 export function LinkProvider({ children }) {
-    const { user, accessToken } = useAuth();
+    const { user } = useAuth();
     const queryClient = useQueryClient();
 
     const { data: links } = useQuery({
@@ -22,11 +22,7 @@ export function LinkProvider({ children }) {
 
     const addLinkMutation = useMutation({
         mutationFn: async (link) => {
-            const response = await api.post("/link", link, {
-                headers: {
-                    Authorization: `Bearer ${accessToken}`,
-                },
-            });
+            const response = await api.post("/link", link);
 
             return response.data;
         },
@@ -41,11 +37,7 @@ export function LinkProvider({ children }) {
 
     const updateLinkMutation = useMutation({
         mutationFn: async (link) => {
-            await api.put(`/link/${link.id}`, link, {
-                headers: {
-                    Authorization: `Bearer ${accessToken}`,
-                },
-            });
+            await api.put(`/link/${link.id}`, link);
         },
         onMutate: async (newLink) => {
             await queryClient.cancelQueries(["links"]);
@@ -65,11 +57,7 @@ export function LinkProvider({ children }) {
 
     const deleteLinkMutation = useMutation({
         mutationFn: async (id) => {
-            await api.delete(`/link/${id}`, {
-                headers: {
-                    Authorization: `Bearer ${accessToken}`,
-                },
-            });
+            await api.delete(`/link/${id}`);
         },
         onMutate: async (deletedLinkId) => {
             await queryClient.cancelQueries({ queryKey: ["links"] });

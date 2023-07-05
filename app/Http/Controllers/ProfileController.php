@@ -25,6 +25,7 @@ class ProfileController extends Controller
         }
 
         $resource = new ProfileResource((object) [
+            'id' => $user->id,
             'username' => $user->username,
             'displayName' => $user->displayName,
             'links' => $links

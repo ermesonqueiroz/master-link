@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 
 export function ReadonlyLink({ link }) {
     return (
@@ -13,15 +12,3 @@ export function ReadonlyLink({ link }) {
         </a>
     );
 }
-
-ReadonlyLink.propTypes = {
-    link: {
-        id: PropTypes.string,
-        title: PropTypes.string,
-        url: PropTypes.string,
-    },
-};
-
-ReadonlyLink.defaultProps = {
-    link: null,
-};

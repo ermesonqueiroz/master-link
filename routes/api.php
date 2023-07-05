@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\LinkController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UserAvatarController;
+use App\Http\Controllers\UserController;
 use App\Http\Middleware\Auth;
 
 Route::prefix('auth')->group(function () {
@@ -21,4 +23,10 @@ Route::prefix('link')->group(function () {
 
 Route::prefix('profile')->group(function () {
     Route::get('/{username}', [ProfileController::class, 'index']);
+});
+
+Route::prefix('user')->group(function () {
+    Route::post('/avatar', [UserAvatarController::class, 'store'])->middleware(Auth::class);
+    Route::get('/', [UserController::class, 'index'])->middleware(Auth::class);
+    Route::put('/', [UserController::class, 'update'])->middleware(Auth::class);
 });

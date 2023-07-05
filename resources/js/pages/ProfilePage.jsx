@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { api } from "../services/api";
-import { ReadonlyLink } from "../components";
+import { Avatar, ReadonlyLink } from "../components";
 
 export function ProfilePage() {
     const { username } = useParams();
@@ -19,12 +19,15 @@ export function ProfilePage() {
 
     return (
         <div className="mt-20 mx-auto w-full max-w-screen-lg flex items-center flex-col px-4">
-            <img
-                src={`https://ui-avatars.com/api/?background=111&color=f1f2f6&name=${data?.display_name}`}
-                alt={username}
-                className="rounded-full aspect-square h-20 mb-4"
-            />
-            <p className="text-zinc-800 text-2xl font-bold tracking-tight leading-tight">
+            <div className="w-36">
+                <Avatar
+                    id={data?.id}
+                    displayName={data?.displayName}
+                    size={20}
+                    alt={data?.username}
+                />
+            </div>
+            <p className="text-zinc-800 text-2xl font-bold tracking-tight leading-tight mt-2">
                 {data?.display_name}
             </p>
             <h1 className="text-zinc-800 text-lg tracking-tight leading-tight">

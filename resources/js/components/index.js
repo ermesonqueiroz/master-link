@@ -5,3 +5,7 @@ export * from "./EditableLink";
 export * from "./ReadonlyLink";
 export * from "./StrictModeDroppable";
 export * from "./DraggabeLinksContainer";
+export * from "./ApplicationHeader";
+export * from "./Avatar";
+export * from "./ProfileSettings";
+export * from "./FallbackImage";

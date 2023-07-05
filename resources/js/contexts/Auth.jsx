@@ -1,60 +1,95 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { Spinner } from "@phosphor-icons/react";
 import { useCookies } from "react-cookie";
-import { jwtVerify } from "jose";
-import PropTypes from "prop-types";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { api } from "../services/api";
 
 const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
-    const [accessToken, setAccessToken] = useState();
     const [isAuthenticated, setIsAuthenticated] = useState(false);
-    const [isLoading, setIsLoading] = useState(true);
-    const [isFetchingUser, setIsFetchingUser] = useState(true);
     const [cookies, setCookie] = useCookies(["authorization"]);
-    const [user, setUser] = useState(null);
+    const [isLoading, setIsLoading] = useState(true);
+    const queryClient = useQueryClient();
 
-    function updateAccessToken(newAccessToken) {
-        setIsAuthenticated(!!newAccessToken);
-        setAccessToken(newAccessToken);
-        setCookie("authorization", newAccessToken);
-    }
+    const { data: user } = useQuery({
+        queryKey: ["user"],
+        queryFn: async () => {
+            const response = await api.get("/user");
 
-    useEffect(() => {
-        setAccessToken(cookies.authorization);
-        setIsAuthenticated(!!cookies.authorization);
-        setIsLoading(false);
-    }, []);
-
-    useEffect(() => {
-        async function execute() {
-            const secret = new TextEncoder().encode("shhhhhhh");
-
-            const { payload: data } = await jwtVerify(accessToken, secret);
-
-            setUser(data);
-
-            if (!data) {
-                setAccessToken(null);
+            if (!response.data.id) {
+                setIsAuthenticated(false);
                 setCookie("authorization", null);
             }
 
-            setIsFetchingUser(false);
+            setIsAuthenticated(true);
+            setIsLoading(false);
+
+            return response.data;
+        },
+        initialData: {},
+        enabled: isAuthenticated,
+        staleTime: Infinity,
+    });
+
+    const updateUserMutation = useMutation({
+        mutationFn: async ({ username, displayName }) => {
+            await api.put(`/user`, {
+                username,
+                display_name: displayName,
+            });
+        },
+        onMutate: (newUser) => {
+            const previousUser = queryClient.getQueryData(["user"]);
+
+            queryClient.setQueryData(["user"], (oldUser) => ({
+                ...oldUser,
+                ...newUser,
+            }));
+
+            return { previousUser };
+        },
+        onError: (err, newUser, context) => {
+            queryClient.setQueryData(["user"], context.previousUser);
+        },
+    });
+
+    useEffect(() => {
+        console.log(user);
+    }, [user]);
+
+    function updateAccessToken(newAccessToken) {
+        queryClient.invalidateQueries(["user"]);
+        setCookie("authorization", newAccessToken);
+    }
+
+    function updateUser(newUser) {
+        updateUserMutation.mutate(newUser);
+    }
+
+    useEffect(() => {
+        if (!cookies.authorization) {
+            setIsLoading(false);
+            setIsAuthenticated(false);
+            return;
         }
 
-        execute();
-    }, [accessToken]);
+        setIsAuthenticated(true);
+
+        api.defaults.headers.common.Authorization = `Bearer ${cookies.authorization}`;
+        queryClient.invalidateQueries(["user"]);
+    }, [cookies.authorization]);
 
     return (
         <AuthContext.Provider
             value={{
                 updateAccessToken,
-                accessToken,
                 isAuthenticated,
                 user,
+                updateUser,
             }}
         >
-            {(isAuthenticated ? !isFetchingUser && !isLoading : !isLoading) ? (
+            {!isLoading ? (
                 children
             ) : (
                 <div className="flex w-screen h-screen items-center justify-center">
@@ -70,11 +105,3 @@ export function AuthProvider({ children }) {
 }
 
 export const useAuth = () => useContext(AuthContext);
-
-AuthProvider.propTypes = {
-    children: PropTypes.node,
-};
-
-AuthProvider.defaultProps = {
-    children: null,
-};

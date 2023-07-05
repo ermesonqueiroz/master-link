@@ -18,6 +18,7 @@ class ProfileResource extends JsonResource
         }, $this->links);
 
         return [
+            'id' => $this->id,
             'username' => $this->username,
             'display_name' => $this->displayName,
             'links' => $links
