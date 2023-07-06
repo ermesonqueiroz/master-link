@@ -4,6 +4,7 @@ import { useAuth } from "../contexts/Auth";
 import {
     AddLinkCollapsible,
     ApplicationHeader,
+    AppearanceSettings,
     ProfileSettings,
 } from "../components";
 import { DraggableLinksContainer } from "../components/DraggabeLinksContainer";
@@ -21,6 +22,7 @@ function Appearance() {
     return (
         <div className="max-w-lg mx-auto my-14 w-full flex items-center flex-col px-4 gap-4">
             <ProfileSettings />
+            <AppearanceSettings />
         </div>
     );
 }

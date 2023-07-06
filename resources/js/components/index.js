@@ -11,3 +11,4 @@ export * from "./ProfileSettings";
 export * from "./FallbackImage";
 export * from "./UploadAvatarButton";
 export * from "./DeleteAvatarButton";
+export * from "./AppearanceSettings.jsx";
