@@ -4,7 +4,7 @@ import { ShareButton } from "./ShareButton";
 
 const sections = {
     links: "/app",
-    appearence: "/app/appearence",
+    appearance: "/app/appearance",
 };
 
 export function ApplicationHeader() {

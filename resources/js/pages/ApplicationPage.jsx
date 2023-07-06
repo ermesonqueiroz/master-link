@@ -17,7 +17,7 @@ function Links() {
     );
 }
 
-function Appearence() {
+function Appearance() {
     return (
         <div className="max-w-lg mx-auto my-14 w-full flex items-center flex-col px-4 gap-4">
             <ProfileSettings />
@@ -34,7 +34,7 @@ export function ApplicationPage() {
             <ApplicationHeader />
             <Routes>
                 <Route path="/" element={<Links />} />
-                <Route path="/appearence" element={<Appearence />} />
+                <Route path="/appearance" element={<Appearance />} />
                 <Route path="*" element={<Navigate to="/app" />} />
             </Routes>
         </>
