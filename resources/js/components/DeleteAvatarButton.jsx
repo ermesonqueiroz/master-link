@@ -3,13 +3,12 @@ import { useAuth } from "../contexts/Auth";
 import { api } from "../services/api";
 
 export function DeleteAvatarButton() {
-    const { user, setAvatar } = useAuth();
+    const { refreshAvatar } = useAuth();
 
     function handleAvatarDelete() {
         api.delete("/user/avatar");
-        setAvatar(
-            `https://api.dicebear.com/6.x/initials/svg?seed=${user?.displayName}&scale=50&radius=50&backgroundColor=111111&chars=2`
-        );
+
+        refreshAvatar();
     }
 
     return (

@@ -3,7 +3,7 @@ import { api } from "../services/api";
 import { useAuth } from "../contexts/Auth";
 
 export function UploadAvatarDialog() {
-    const { user, setAvatar } = useAuth();
+    const { refreshAvatar } = useAuth();
 
     const fileInput = useRef();
 
@@ -18,7 +18,9 @@ export function UploadAvatarDialog() {
                 "Content-Type": "multipart/form-data",
             },
         });
-        setAvatar(`/storage/avatars/${user?.id}?time=${Date.now()}`);
+
+        fileInput.current.value = "";
+        refreshAvatar();
     }
 
     return (
