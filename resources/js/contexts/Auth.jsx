@@ -11,7 +11,7 @@ export function AuthProvider({ children }) {
     const [cookies, setCookie] = useCookies(["authorization"]);
     const [isLoading, setIsLoading] = useState(true);
     const queryClient = useQueryClient();
-    const [avatar, setAvatar] = useState('');
+    const [avatar, setAvatar] = useState("");
 
     const { data: user } = useQuery({
         queryKey: ["user"],
@@ -65,7 +65,7 @@ export function AuthProvider({ children }) {
     }
 
     function refreshAvatar() {
-        setAvatar(`/storage/avatars/${user?.id}?time=${Date.now()}`)
+        setAvatar(`/storage/avatars/${user?.id}?time=${Date.now()}`);
     }
 
     useEffect(() => {
@@ -93,7 +93,7 @@ export function AuthProvider({ children }) {
                 user,
                 updateUser,
                 avatar,
-                refreshAvatar
+                refreshAvatar,
             }}
         >
             {!isLoading ? (
