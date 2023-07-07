@@ -35,8 +35,8 @@ export function ApplicationPage() {
     return (
         <>
             <ApplicationHeader />
-            <div className="flex gap-20">
-                <div className="flex w-[60%] my-14 justify-end">
+            <div className="flex gap-20 relative my-14">
+                <div className="flex w-[60%] justify-end">
                     <Routes>
                         <Route path="/" element={<Links />} />
                         <Route path="/appearance" element={<Appearance />} />
@@ -44,7 +44,7 @@ export function ApplicationPage() {
                     </Routes>
                 </div>
 
-                <div className="h-screen w-[40%] flex flex-col fixed right-0 justify-center items-center">
+                <div className="w-[40%] flex flex-col fixed right-0 justify-center items-center">
                     <ProfilePreview />
                 </div>
             </div>
