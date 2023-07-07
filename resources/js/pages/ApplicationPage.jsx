@@ -35,14 +35,18 @@ export function ApplicationPage() {
     return (
         <>
             <ApplicationHeader />
-            <div className="flex justify-center gap-20 my-14">
-                <Routes>
-                    <Route path="/" element={<Links />} />
-                    <Route path="/appearance" element={<Appearance />} />
-                    <Route path="*" element={<Navigate to="/app" />} />
-                </Routes>
+            <div className="flex gap-20">
+                <div className="flex w-[60%] my-14 justify-end">
+                    <Routes>
+                        <Route path="/" element={<Links />} />
+                        <Route path="/appearance" element={<Appearance />} />
+                        <Route path="*" element={<Navigate to="/app" />} />
+                    </Routes>
+                </div>
 
-                <ProfilePreview />
+                <div className="h-screen w-[40%] flex flex-col fixed right-0 justify-center items-center">
+                    <ProfilePreview />
+                </div>
             </div>
         </>
     );

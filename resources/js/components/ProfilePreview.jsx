@@ -9,7 +9,7 @@ export function ProfilePreview() {
     const { links } = useLink();
 
     return (
-        <div className="p-1.5 w-[280px] h-[560px] bg-zinc-800 rounded-3xl shadow-[0_2.75rem_5.5rem_-3.5rem_rgb(45_55_75_/_20%),_0_2rem_4rem_-2rem_rgb(45_55_75_/_30%),_inset_0_-0.1875rem_0.3125rem_0_rgb(45_55_75_/_20%)]">
+        <div className="p-1.5 w-[280px] -mt-20 h-[560px] bg-zinc-800 rounded-3xl">
             <div className="h-full bg-zinc-100 flex flex-col items-center py-6 px-4 w-full rounded-3xl">
                 <div className="h-20 w-20">
                     <Avatar />
