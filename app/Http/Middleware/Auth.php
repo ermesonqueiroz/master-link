@@ -17,7 +17,6 @@ class Auth
 
             if (!$authorizationHeader) {
                 return response()->json(['error' => 'Unauthorized'], 401);
-                ;
             }
 
             $accessToken = str_replace('Bearer ', '', $authorizationHeader);
