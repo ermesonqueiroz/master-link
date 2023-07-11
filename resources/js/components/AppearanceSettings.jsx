@@ -1,44 +1,43 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ChromePicker } from "react-color";
+import { isEqual } from "lodash";
+import { useAppearance } from "../contexts";
 
 export function AppearanceSettings() {
-    const [preferences, setPreferences] = useState([
-        {
-            id: "text-color",
-            title: "Text color",
-            validColor: "#27262a",
-            color: "#27262a",
-            displayColorPicker: false,
-        },
-        {
-            id: "background-color",
-            title: "Background color",
-            validColor: "#f4f4f5",
-            color: "#f4f4f5",
-            displayColorPicker: false,
-        },
-        {
-            id: "button-background-color",
-            title: "Button color",
-            validColor: "#fff",
-            color: "#fff",
-            displayColorPicker: false,
-        },
-        {
-            id: "button-text-color",
-            title: "Button text color",
-            validColor: "#27262a",
-            color: "#27262a",
-            displayColorPicker: false,
-        },
-        {
-            id: "button-text-color",
-            title: "Button text color",
-            validColor: "#27262a",
-            color: "#27262a",
-            displayColorPicker: false,
-        },
-    ]);
+    const {
+        appearance,
+        localAppearance,
+        updateLocalAppearance,
+        updateAppearance,
+    } = useAppearance();
+    const [preferences, setPreferences] = useState([]);
+    const [hasChanges, setHasChanges] = useState(false);
+
+    useEffect(() => {
+        setPreferences(
+            Object.entries(localAppearance).map(([key, value]) => ({
+                id: key,
+                title: key.split("_").join(" "),
+                validColor: value,
+                color: value,
+                displayColorPicker: false,
+            }))
+        );
+    }, []);
+
+    useEffect(() => {
+        setHasChanges(!isEqual(appearance, localAppearance));
+
+        updateLocalAppearance(
+            Object.fromEntries(
+                preferences.map((item) => [item.id, item.validColor])
+            )
+        );
+    }, [preferences]);
+
+    function handleSavePreferences() {
+        updateAppearance(localAppearance);
+    }
 
     const colorIsValid = (color) =>
         /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/.test(color);
@@ -84,7 +83,7 @@ export function AppearanceSettings() {
                         <div key={id}>
                             <label
                                 htmlFor="background-color"
-                                className="text-sm text-gray-800"
+                                className="text-sm text-gray-800 capitalize"
                             >
                                 {title}
                             </label>
@@ -108,6 +107,7 @@ export function AppearanceSettings() {
                                         <div className="absolute top-1/2 left-1/2 z-10">
                                             <div
                                                 className="fixed top-0 left-0 right-0 bottom-0"
+                                                aria-hidden
                                                 onClick={() =>
                                                     toggleDisplayBackgroundColorPicker(
                                                         id
@@ -147,6 +147,20 @@ export function AppearanceSettings() {
                         </div>
                     )
                 )}
+
+                <button
+                    type="button"
+                    className={`h-10 w-full mt-1 font-medium rounded-full text-zinc-200 transition-colors bg-zinc ${
+                        !hasChanges ? "bg-gray-500" : "bg-zinc-800"
+                    }`}
+                    style={{
+                        cursor: !hasChanges ? "not-allowed" : "pointer",
+                    }}
+                    onClick={handleSavePreferences}
+                    disabled={!hasChanges}
+                >
+                    Save Changes
+                </button>
             </div>
         </div>
     );

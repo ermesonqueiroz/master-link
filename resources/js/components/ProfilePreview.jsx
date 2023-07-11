@@ -3,21 +3,32 @@ import { Link } from "react-router-dom";
 import { useAuth } from "../contexts/Auth";
 import { Avatar } from "./Avatar";
 import { useLink } from "../contexts/Link";
+import { useAppearance } from "../contexts";
 
 export function ProfilePreview() {
     const { user } = useAuth();
     const { links } = useLink();
+    const { localAppearance } = useAppearance();
 
     return (
         <div className="p-1.5 w-[280px] h-[560px] bg-zinc-800 rounded-3xl">
-            <div className="h-full bg-zinc-100 flex flex-col items-center py-6 px-4 w-full rounded-3xl">
+            <div
+                className="h-full flex flex-col items-center py-6 px-4 w-full rounded-3xl"
+                style={{ backgroundColor: localAppearance.background_color }}
+            >
                 <div className="h-20 w-20">
                     <Avatar />
                 </div>
-                <p className="text-zinc-800 text-2xl font-bold tracking-tight leading-tight mt-2">
+                <p
+                    className="text-2xl font-bold tracking-tight leading-tight mt-2"
+                    style={{ color: localAppearance.text_color }}
+                >
                     {user?.displayName}
                 </p>
-                <h1 className="text-zinc-800 text-lg tracking-tight leading-tight">
+                <h1
+                    className="text-lg tracking-tight leading-tight"
+                    style={{ color: localAppearance.text_color }}
+                >
                     @{user.username}
                 </h1>
 
@@ -31,7 +42,12 @@ export function ProfilePreview() {
                                     key={link?.title}
                                     href={link?.url}
                                     target="blank"
-                                    className="bg-white text-zinc-800 font-medium text-center text-sm border-zinc-400 border w-full rounded-lg py-3 px-6"
+                                    className="font-medium text-center text-sm w-full rounded-lg py-3 px-6"
+                                    style={{
+                                        backgroundColor:
+                                            localAppearance.button_color,
+                                        color: localAppearance.button_text_color,
+                                    }}
                                 >
                                     {link?.title}
                                 </a>
@@ -41,7 +57,8 @@ export function ProfilePreview() {
                 <footer>
                     <Link
                         to="/"
-                        className="font-bold text-zinc-900 text-lg tracking-tight"
+                        className="font-bold text-lg tracking-tight"
+                        style={{ color: localAppearance.text_color }}
                     >
                         unilink
                     </Link>

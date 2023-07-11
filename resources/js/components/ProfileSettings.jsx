@@ -63,9 +63,12 @@ export function ProfileSettings() {
 
                 <button
                     type="button"
-                    className={`h-10 w-full mt-1 font-medium rounded-full text-zinc-200 transition-colors bg-zinc-800 ${
-                        !hasChanges && "bg-zinc-500 cursor-not-allowed"
+                    className={`h-10 w-full mt-1 font-medium rounded-full text-zinc-200 transition-colors bg-zinc ${
+                        !hasChanges ? "bg-gray-500" : "bg-zinc-800"
                     }`}
+                    style={{
+                        cursor: !hasChanges ? "not-allowed" : "default",
+                    }}
                     onClick={handleUpdateProfile}
                     disabled={!hasChanges}
                 >

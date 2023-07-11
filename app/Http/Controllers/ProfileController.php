@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\ProfileResource;
+use App\Models\Appearance;
 use App\Models\Link;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -19,6 +20,10 @@ class ProfileController extends Controller
             ->where('active', true)
             ->get()
             ->toArray();
+        
+        $appearance = Appearance::where('userId', $user->id)
+            ->get()
+            ->first();
 
         if (!$user) {
             return response([], 404);
@@ -28,7 +33,8 @@ class ProfileController extends Controller
             'id' => $user->id,
             'username' => $user->username,
             'displayName' => $user->displayName,
-            'links' => $links
+            'links' => $links,
+            'appearance' => $appearance
         ]);
 
         return $resource->toArray($request);

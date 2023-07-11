@@ -20,5 +20,6 @@ module.exports = {
         "react/jsx-props-no-spreading": "off",
         "react/jsx-no-bind": "off",
         "react/prop-types": "off",
+        "jsx-a11y/no-static-element-interactions": "off",
     },
 };

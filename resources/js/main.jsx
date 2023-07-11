@@ -15,7 +15,7 @@ import "@fontsource/dm-sans/500.css";
 import "@fontsource/dm-sans/700.css";
 import "./bootstrap";
 import { queryClient } from "./services/query-client";
-import { AuthProvider, LinkProvider } from "./contexts";
+import { AuthProvider, LinkProvider, AppearanceProvider } from "./contexts";
 
 const router = createBrowserRouter([
     {
@@ -45,9 +45,11 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         <CookiesProvider>
             <QueryClientProvider client={queryClient}>
                 <AuthProvider>
-                    <LinkProvider>
-                        <RouterProvider router={router} />
-                    </LinkProvider>
+                    <AppearanceProvider>
+                        <LinkProvider>
+                            <RouterProvider router={router} />
+                        </LinkProvider>
+                    </AppearanceProvider>
                 </AuthProvider>
             </QueryClientProvider>
         </CookiesProvider>

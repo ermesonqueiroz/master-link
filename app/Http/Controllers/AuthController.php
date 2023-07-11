@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\RefreshTokenRequest;
 use App\Http\Requests\SignInRequest;
 use App\Http\Requests\SignUpRequest;
+use App\Models\Appearance;
 use App\Models\RefreshToken;
 use App\Models\User;
 use App\Utils\JsonWebToken;
@@ -43,6 +44,16 @@ class AuthController extends Controller
         ]);
 
         $refreshToken->save();
+
+        $appearance = new Appearance([
+            'userId' => $user['id'],
+            'textColor' => '#27262a',
+            'backgroundColor' => '#f4f4f5',
+            'buttonColor' => '#fff',
+            'buttonTextColor' => '#27262a'
+        ]);
+
+        $appearance->save();
 
         return [
             'access_token' => $accessToken,

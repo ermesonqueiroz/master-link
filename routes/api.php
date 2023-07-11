@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AppearanceController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\LinkController;
@@ -30,4 +31,9 @@ Route::prefix('user')->group(function () {
     Route::delete('/avatar', [UserAvatarController::class, 'delete'])->middleware(Auth::class);
     Route::get('/', [UserController::class, 'index'])->middleware(Auth::class);
     Route::put('/', [UserController::class, 'update'])->middleware(Auth::class);
+});
+
+Route::prefix('appearance')->group(function () {
+    Route::get('/{userId}', [AppearanceController::class, 'index']);
+    Route::put('/', [AppearanceController::class, 'update'])->middleware(Auth::class);
 });

@@ -8,7 +8,11 @@ export function DraggableLinksContainer() {
     const { links, updateLink } = useLink();
 
     function onOrderChange(result) {
-        if (!result.destination) return;
+        if (
+            !result.destination ||
+            result.destination.index === result.source.index
+        )
+            return;
 
         const items = Array.from(links);
         const [reorderedItem] = items.splice(result.source.index, 1);

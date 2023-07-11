@@ -17,11 +17,19 @@ class ProfileResource extends JsonResource
             ];
         }, $this->links);
 
+        $appearance = [
+            'text_color' => $this->appearance->textColor,
+            'background_color' => $this->appearance->backgroundColor,
+            'button_color' => $this->appearance->buttonColor,
+            'button_text_color' => $this->appearance->buttonTextColor,
+        ];
+
         return [
             'id' => $this->id,
             'username' => $this->username,
             'display_name' => $this->displayName,
-            'links' => $links
+            'links' => $links,
+            'appearance' => $appearance
         ];
     }
 }
