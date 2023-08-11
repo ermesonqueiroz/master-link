@@ -1,34 +1,15 @@
-import React, { useState } from "react";
+import React from "react";
 import { CaretLeft, CaretRight, Spinner } from "@phosphor-icons/react";
-import { useMutation } from "@tanstack/react-query";
-import { Link, Navigate } from "react-router-dom";
-import { api } from "../services/api";
-import { useAuth } from "../contexts/Auth";
+import { Link, useForm } from "@inertiajs/react";
 
-export function LoginPage() {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-
-    const { updateAccessToken, isAuthenticated } = useAuth();
-
-    const loginMutation = useMutation({
-        mutationFn: async (user) => {
-            const { data } = await api.post("/auth/signin", user);
-
-            updateAccessToken(data.access_token);
-        },
-    });
+export default function LoginPage() {
+    const { data, setData, post, processing } = useForm();
 
     function handleLoginSubmit(e) {
         e.preventDefault();
-
-        loginMutation.mutate({
-            email,
-            password,
-        });
+        post("/api/auth/signin");
     }
 
-    if (isAuthenticated) return <Navigate to="/app" />;
     return (
         <div>
             <header className="absolute px-4 md:px-8 mt-8 top-0">
@@ -49,7 +30,7 @@ export function LoginPage() {
                 </h1>
                 <p className="text-zinc-500 text-lg pb-4">
                     Don&apos;t have an account yet?{" "}
-                    <Link to="/signup" className="text-blue-400">
+                    <Link href="/signup" className="text-blue-400">
                         Sign Up
                     </Link>
                 </p>
@@ -58,9 +39,10 @@ export function LoginPage() {
                     <p className="text-zinc-700">Email</p>
                     <input
                         className="border-zinc-300 border px-2 rounded-md h-10 bg-zinc-100 w-full text-zinc-800 placeholder:text-zinc-500"
-                        type="text"
+                        type="email"
                         placeholder="john.doe@example.com"
-                        onChange={(e) => setEmail(e.target.value)}
+                        value={data.email}
+                        onChange={(e) => setData("email", e.target.value)}
                     />
                 </div>
 
@@ -75,7 +57,8 @@ export function LoginPage() {
                         className="border-zinc-300 border px-2 rounded-md h-10 bg-zinc-100 w-full text-zinc-800 placeholder:text-zinc-500"
                         type="password"
                         placeholder="••••••••"
-                        onChange={(e) => setPassword(e.target.value)}
+                        value={data.password}
+                        onChange={(e) => setData("password", e.target.value)}
                     />
                 </div>
 
@@ -83,7 +66,7 @@ export function LoginPage() {
                     type="submit"
                     className="bg-zinc-900 w-full h-10 rounded-md flex items-center justify-center gap-1 leading-none font-medium"
                 >
-                    {!loginMutation.isLoading ? (
+                    {!processing ? (
                         <>
                             Continue{" "}
                             <CaretRight
@@ -101,7 +84,7 @@ export function LoginPage() {
                     )}
                 </button>
 
-                <p className="text-zinc-500 text-sm mt-4">
+                <p className="text-zinc-500 text-sm self-center mt-2">
                     By signing in, you agree to our Terms of Service and Privacy
                     Policy.
                 </p>

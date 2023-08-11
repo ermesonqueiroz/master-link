@@ -1,45 +1,21 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { CaretLeft, CaretRight, Spinner } from "@phosphor-icons/react";
-import { useMutation } from "@tanstack/react-query";
-import { Link, Navigate, useLocation } from "react-router-dom";
-import { api } from "../services/api";
-import { useAuth } from "../contexts/Auth";
+import { Link, useForm } from "@inertiajs/react";
 
-export function SignupPage() {
-    const { search } = useLocation();
+export default function SignupPage() {
+    const { search } = window.location;
     const params = new URLSearchParams(search);
 
-    const [username, setUsername] = useState("");
-    const [displayName, setDisplayName] = useState("");
-    const [email, setEmail] = useState(params.get("email") ?? "");
-    const [password, setPassword] = useState("");
-
-    const { updateAccessToken, isAuthenticated } = useAuth();
-
-    const registerMutation = useMutation({
-        mutationFn: async (user) => {
-            const { data } = await api.post("/auth/signup", user);
-
-            updateAccessToken(data.access_token);
-        },
-    });
+    const { data, setData, processing } = useForm();
 
     function handleRegisterSubmit(e) {
         e.preventDefault();
-
-        registerMutation.mutate({
-            username,
-            display_name: displayName,
-            email,
-            password,
-        });
     }
 
     useEffect(() => {
-        setEmail(params.get("email"));
+        setData("email", params.get("email"));
     }, []);
 
-    if (isAuthenticated) return <Navigate to="/app" />;
     return (
         <div>
             <header className="absolute px-4 md:px-8 mt-8 top-0">
@@ -60,7 +36,7 @@ export function SignupPage() {
                 </h1>
                 <p className="text-zinc-500 text-lg pb-4">
                     Already have an account?{" "}
-                    <Link to="/signin" className="text-blue-400">
+                    <Link href="/signin" className="text-blue-400">
                         Sign in
                     </Link>
                 </p>
@@ -71,8 +47,8 @@ export function SignupPage() {
                         className="border-zinc-300 border px-2 rounded-md h-10 bg-zinc-100 w-full text-zinc-800 placeholder:text-zinc-500"
                         type="text"
                         placeholder="johndoe"
-                        onChange={(e) => setUsername(e.target.value)}
-                        value={username}
+                        onChange={(e) => setData("username", e.target.value)}
+                        value={data.username}
                     />
                 </div>
 
@@ -82,8 +58,8 @@ export function SignupPage() {
                         className="border-zinc-300 border px-2 rounded-md h-10 bg-zinc-100 w-full text-zinc-800 placeholder:text-zinc-500"
                         type="text"
                         placeholder="John Doe"
-                        onChange={(e) => setDisplayName(e.target.value)}
-                        value={displayName}
+                        onChange={(e) => setData("displayName", e.target.value)}
+                        value={data.displayName}
                     />
                 </div>
 
@@ -93,8 +69,8 @@ export function SignupPage() {
                         className="border-zinc-300 border px-2 rounded-md h-10 bg-zinc-100 w-full text-zinc-800 placeholder:text-zinc-500"
                         type="email"
                         placeholder="john.doe@example.com"
-                        onChange={(e) => setEmail(e.target.value)}
-                        value={email}
+                        onChange={(e) => setData("email", e.target.value)}
+                        value={data.email}
                     />
                 </div>
 
@@ -104,8 +80,8 @@ export function SignupPage() {
                         className="border-zinc-300 border px-2 rounded-md h-10 bg-zinc-100 w-full text-zinc-800 placeholder:text-zinc-400"
                         type="password"
                         placeholder="••••••••"
-                        onChange={(e) => setPassword(e.target.value)}
-                        value={password}
+                        onChange={(e) => setData("password", e.target.value)}
+                        value={data.password}
                     />
                 </div>
 
@@ -113,7 +89,7 @@ export function SignupPage() {
                     className="bg-zinc-900 w-full h-10 rounded-md flex text-zinc-200 items-center justify-center gap-1 leading-none font-medium"
                     type="submit"
                 >
-                    {!registerMutation.isLoading ? (
+                    {!processing ? (
                         <>
                             Continue{" "}
                             <CaretRight

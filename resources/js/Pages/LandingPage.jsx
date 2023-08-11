@@ -1,14 +1,14 @@
 import React from "react";
 import Balancer from "react-wrap-balancer";
 import { CaretRight } from "@phosphor-icons/react";
-import { Link } from "react-router-dom";
+import { Link } from "@inertiajs/react";
 
-export function LandingPage() {
+export default function LandingPage() {
     return (
         <>
             <header className="flex px-8 h-20 justify-between items-center">
                 <Link
-                    to="/"
+                    href="/"
                     className="font-bold text-zinc-900 text-2xl tracking-tight"
                 >
                     unilink
@@ -16,14 +16,14 @@ export function LandingPage() {
 
                 <div className="flex gap-2 items-center">
                     <Link
-                        to="/signin"
+                        href="/login"
                         className="text-zinc-700 font-medium tracking-tight text-lg h-10 px-4 rounded-full hover:bg-neutral-200 transition-colors flex items-center"
                     >
                         Sign in
                     </Link>
 
                     <Link
-                        to="/signup"
+                        href="/signup"
                         className="text-zinc-200 font-medium tracking-tight text-lg h-10 px-4 rounded-full bg-zinc-800 hover:bg-zinc-700 transition-colors flex gap-2 items-center justify-center"
                     >
                         Get started <CaretRight size={14} />
@@ -36,7 +36,7 @@ export function LandingPage() {
                     <div className="flex w-min flex-col gap-4">
                         <h1 className="font-bold min-w-max text-zinc-900 text-6xl tracking-tight leading-tight">
                             <Balancer>
-                                Streamline and{" "}
+                                Simplify and{" "}
                                 <span className="bg-zinc-900 text-zinc-50 px-3">
                                     boost
                                 </span>

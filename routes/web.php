@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Inertia\Inertia;
 
-
-Route::view('/{path?}',"welcome")->where("path", ".*");
+Route::get("/", fn() => Inertia::render('LandingPage'));
+Route::get("/login", fn() => Inertia::render('Login'));
+Route::get("/signup", fn() => Inertia::render('SignUp'));
